@@ -1,0 +1,48 @@
+//
+//  testplan.txt
+//  memgrind
+//
+//  Created by Dennis Kager and Ali Awari on 4/1/19.
+//  Copyright © 2019 Dennis Kager and Ali Awari. All rights reserved.
+//
+
+In general, consider the questions
+- What aren't we testing?
+- What are we testing?
+- How are we testing it?
+
+1) Opening Files
+  What kind of files can you open?
+  - Can open any kind of file.
+
+2) Tokenizer
+  What happens to control characters?
+  - They eventually get translated into a friendlier char, which is decoded later to a control char.
+  How many tokens can it handle?
+  - As many as the computer memory can handle
+  What kind of tokens can be tokenized?
+  - Unicode
+
+3) Building Codebook
+  What is the maximum number of nodes to be created?
+  - We realloc memory to fit as many nodes that the computer memory will allow,
+  by checking on every insert.
+  On NULL?
+  - On NULL inputs the program will terminate, do to an error somewhere else in the program.
+  What about random order of frequencies?
+  - Min-heap is suffieciently built to handle all permutations of frequencies
+  What happens when there is only one token?
+  - Token will be 0
+
+4) Decompression
+  What is the maximum file size that can be decompressed?
+  - Anything memory can handle
+  What happens to control characters?
+  - Succesfully translated back into original state
+
+5) Recursion
+  - Currently not implemented in this project
+
+6) Outputting Files
+  What if the file doesn't exist?
+  - Program will create a new file

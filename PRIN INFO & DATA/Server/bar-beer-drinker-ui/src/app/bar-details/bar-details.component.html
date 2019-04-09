@@ -1,0 +1,24 @@
+<div class="container">
+  <button (click)="cancel()" class="btn-primary btn">Previous Page</button>
+
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-3">{{ barDetails?.name }}</h1>
+      <div class="lead" class="bar-details">
+        {{ barDetails?.addr }} <br />
+        {{ barDetails?.city }}, {{ barDetails?.state }} {{ barDetails?.zip }} <br />
+        <p>{{ barDetails?.phone }}</p>
+        <p>Operating Hours: {{ open_time }} to {{ close_time }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <br />
+    <div id="top-drinkers-graph"></div>
+    <div id="popular-beers-graph"></div>
+    <div id="top-manf-graph"></div>
+    <div id="day-dist-graph"></div>
+    <div id="week-dist-graph"></div>
+  </div>
+</div>

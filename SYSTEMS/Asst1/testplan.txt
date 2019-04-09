@@ -1,0 +1,22 @@
+//
+//  testplan.txt
+//  memgrind
+//
+//  Created by Dennis Kager and Ali Awari on 2/18/19.
+//  Copyright © 2019 Dennis Kager and Ali Awari. All rights reserved.
+//
+
+
+Workloads:
+    Test E
+
+        Supplies an edge test case, where user requests memory and we have enough memory in a block for the user,
+    but not enough memory to make a new metadata block: we accept that request
+    and supply the user with more than requested memory. Tested 100 times for consistency.
+
+    Test F
+
+        Revolves around testing the defragmentation function for consistency. We split array into four pieces:
+    [1, 1, 1, 1], and free the middle two chunks of memory, [1, 0, 0, 1]. Run defragmentation in order to achieve
+    [1, 0, 1]. Reallocate the middle node [1, 1, 1], free all the nodes [..., 0, ...] and then fill memory [..., 1, ...].
+    Tested 100 times for consistency.

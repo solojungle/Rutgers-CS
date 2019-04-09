@@ -1,0 +1,47 @@
+<div class="container">
+  <button (click)="cancel()" class="btn-primary btn">Previous Page</button>
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-3">{{ drinker_details?.first }} {{ drinker_details?.last }}</h1>
+      <div class="lead" class="bar-details">
+        {{ drinker_details?.addr }} <br />
+        {{ drinker_details?.city }}, {{ drinker_details?.state }} {{ drinker_details?.zip }} <br />
+        {{ drinker_details?.phone }}
+      </div>
+    </div>
+  </div>
+  <div id="most-ordered-beer-graph"></div>
+  <div id="spending-date-graph"></div>
+  <div id="spending-week-graph"></div>
+  <div id="spending-month-graph"></div>
+  <h2>{{ drinker_details?.first }}'s Bills:</h2>
+  <p-table [value]="bill_details">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Orders In Bill</th>
+        <th>Bill ID</th>
+        <th>Bar</th>
+        <th>Total</th>
+        <th>Tax</th>
+        <th>Tip</th>
+        <th>Grand Total</th>
+        <th>Date</th>
+        <th>Time</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-bill>
+      <tr>
+        <td><a [routerLink]="['/drinker/billing/', bill?.bill_id]">Billing Info</a></td>
+        <td>{{ bill?.bill_id }}</td>
+        <td>{{ bill?.name }}</td>
+        <td>{{ bill?.total }}</td>
+        <td>{{ bill?.tax }}</td>
+        <td>{{ bill?.tip }}</td>
+        <td>{{ bill?.grand_total }}</td>
+        <td>{{ bill?.date }}</td>
+        <td>{{ bill?.time }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <br />
+</div>

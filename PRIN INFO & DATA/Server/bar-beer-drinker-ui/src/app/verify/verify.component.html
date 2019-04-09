@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="list-group">
+    <div class="list-group-item">
+      <h4>Frequents</h4>
+      <div *ngIf="frequents">
+        <span class="badge badge-success">Success</span>
+        <pre>Frequents has been verified.</pre>
+      </div>
+      <div *ngIf="!frequents">
+        <span class="badge badge-danger">Failed</span>
+        <pre>There is an error with Frequents.</pre>
+      </div>
+    </div>
+    <div class="list-group-item">
+      <h4>Operating Hours</h4>
+      <div *ngIf="operating">
+        <span class="badge badge-success">Success</span>
+        <pre>Operating has been verified.</pre>
+      </div>
+      <div *ngIf="!operating">
+        <span class="badge badge-danger">Failed</span>
+        <pre>There is an error with Operating Hours.</pre>
+      </div>
+    </div>
+    <div class="list-group-item">
+      <h4>Beer</h4>
+      <div *ngIf="beer">
+        <span class="badge badge-success">Success</span>
+        <pre>Beer has been verified.</pre>
+      </div>
+      <div *ngIf="!beer">
+        <span class="badge badge-danger">Failed</span>
+        <pre>There is an error with Beers.</pre>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h2>Frequents</h2>
+    <p>
+      SELECT IF((SELECT frequents.drinker_id FROM ((frequents INNER JOIN bar ON frequents.bar_id = bar.bar_id) INNER JOIN drinker ON frequents.drinker_id = drinker.drinker_id) WHERE bar.state !=
+      drinker.state) IS NULL, TRUE, FALSE)
+    </p>
+    <h2>Operating Hours</h2>
+    <p>
+      SELECT IF((SELECT bill.bill_id FROM bill LEFT JOIN bar ON bill.bar_id = bar.bar_id WHERE bill.time < bar.open OR !( (bar.open > bar.close AND bill.time > bar.close) OR (bar.open < bar.close AND
+      bill.time < bar.close))) IS NULL, TRUE, FALSE)
+    </p>
+    <h2>Beer</h2>
+    <p>
+      SELECT IF((SELECT DISTINCT T1.name FROM (SELECT S1.bar_id, CONCAT(S1.item, ' & ', S2.item) AS 'name', IF(S1.price < S2.price, '<', '>') AS 'Relation' FROM sells S1, sells S2 WHERE S1.bar_id =
+      S2.bar_id AND S1.item != S2.item AND S1.item < S2.item) T1, (SELECT S1.bar_id, CONCAT(S1.item, ' & ', S2.item) AS 'name', IF(S1.price < S2.price, '<', '>') AS 'Relation' FROM sells S1, sells S2
+      WHERE S1.bar_id = S2.bar_id AND S1.item != S2.item AND S1.item < S2.item) T2 WHERE T1.name = T2.name AND T1.Relation != T2.Relation AND T1.bar_id > T2.bar_id) IS NULL, TRUE, FALSE)
+    </p>
+  </div>
+</div>

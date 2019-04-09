@@ -1,0 +1,22 @@
+<div class="container">
+  <form (ngSubmit)="onSubmit(companyForm)" #companyForm="ngForm" method="post">
+    <div class="form-group"><input type="text" name="query" class="form-control" placeholder="Query" ngModel /></div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <br />
+    <br />
+    <p>** USE THIS PAGE TO ENTER SQL QUERIES THAT INSERT, UPDATE, OR DELETE ENTRIES IN THE DATABASE</p>
+    <p>** NOTE: ANY <b>PRIMARY KEY</b> THAT IS AN <b>ID</b> IS SET TO AUTO INCREMNT IN THE DATABASE,</p>
+    <p>** SO <b>DO NOT</b> INSERT ANY VALUE FOR THOSE COLUMNS!</p>
+    <p>** Any column that requires a time to be entered is in the format of a 24 Hour Clock, 'HH:MM:SS' (ex.'13:00:00')</p>
+    <p>** Any column that requires a date to be entered is in the format of 'YYYY-MM-DD' (ex. '2018-11-18')</p>
+    <p>** For the <b>item table</b> in the <b>category column</b> put:</p>
+    <ul>
+      <li>'beer' - for alcholic beverage (beers)</li>
+      <li>'drink' - for non-alcholic beverages (ex. soda, water)</li>
+      <li>'food' - for food items (ex. hot dog, hamburger)</li>
+    </ul>
+  </form>
+  <img src="/assets/img/Database Schema.png" class="img-fluid" alt="" />
+</div>

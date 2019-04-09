@@ -1,0 +1,73 @@
+PROBLEM 1)
+1. Trace selection sort on the following array of letters (sort into alphabetical order): C Q S A X B T
+
+	a. C Q S A X B T = index 0, 6 comparison(s).
+	b. A C Q S X B T = index 1, 5 comparison(s).
+	c. A B C Q S X T = index 2, 4 comparison(s).
+	d. A B C Q S X T = index 3, 3 comparison(s).
+	e. A B C Q S X T = index 4, 2 comparison(s).
+	f. A B C Q S X T = index 5, 1 comparison(s).
+	
+	A B C Q S T X
+
+2. Trace insertion sort on the following array of letters (sort into alphabetical order): C Q S A X B T
+
+	a. C Q = index 1, 1 comparison(s).
+	b. C Q S = index 2, 1 comparison(s).
+	c. A C Q S = index 3, 3 comparison(s).
+	d. A C Q S X = index 4, 1 comparison(s).
+	e. A B C Q S X = index 5, 5 comparison(s).
+	f. A B C Q S X T = index 6, 1 comparison(s).
+
+	A B C Q S T X
+
+PROBLEM 1)
+
+A. Determine if 2 arrays contain none of the same elements elements (assume all elements are distinct)
+
+	1. I would compare two arrays using a nested loop.
+	2. Run time influences is length of arrays
+	3. Length of first array (n), length of second array (n), Comparisons/Loops is (n^2)
+	4. n^2 + n1 + n2
+	5. 
+		a. Worst case (no duplicates): n^2
+		b. Best (First index contains duplicate): 2
+	6. 
+		a. O(n^2)
+		b. O(1)
+
+B. Counting total number characters that have a duplicate within a string (i.e. "gigi the gato" would result in 7 (g x 3 + i x 2 + t x 2)
+
+	1. Loop through the array, checking every char (hash table), increments on duplicate
+	2. Run time influenced by length of string
+	3. Length of string, characters, counter
+	4. Length of string (n), characters (26), counter (n)
+	5. 
+		a. Worst case (All 'z'): n
+		b. Best case (All 'a'): n
+	6. 
+		a. Worst case: O(n)
+		b. Best case: O(n)
+
+C. Finding a row where every entry is 'x' in a 2-D array
+
+	1. Nested loop that checks, every row and column
+	2. Length of Rows and Columns of the matrix
+	3. Length of Rows and Columns
+	4. Rows and Columns (n*m)
+	5.
+		a. Worst case (No 'x' row): n*m
+		b. Best case (First row): n*1
+	6. 
+		a. Worst case: O(n*m)
+		b. Best case: O(n)
+
+
+
+
+
+
+
+
+
+

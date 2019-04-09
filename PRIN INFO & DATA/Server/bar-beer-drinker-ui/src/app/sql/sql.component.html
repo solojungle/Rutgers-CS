@@ -1,0 +1,25 @@
+<div class="container">
+  <form (ngSubmit)="onSubmit(companyForm)" #companyForm="ngForm" method="post">
+    <div class="form-group">
+        <input type="text" name="query" class="form-control" placeholder="SQL Query" ngModel>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  <pre>RESULTS APPEAR BELOW:</pre>
+  <div class="table-responsive" *ngIf="show">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th *ngFor='let key of keys'>
+            {{ key }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let data of dataSet'>
+          <td *ngFor='let e of keys; index as i'>{{ data[this.keys[i]] }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text"><img src="assets/svg/search.svg" alt="Search icon"/></span>
+    </div>
+    <input [(ngModel)]="searchText" type="text" class="form-control" placeholder="Search for Bars" aria-label="Search" aria-describedby="basic-addon1" />
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>Phone</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let bar of (bars | filter: searchText)">
+          <td>{{ bar.bar_id }}</td>
+          <th>
+            <a [routerLink]="['/bar', bar.bar_id]">{{ bar.name }}</a>
+          </th>
+          <td>{{ bar.addr }}</td>
+          <td>{{ bar.city }}</td>
+          <td>{{ bar.phone }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

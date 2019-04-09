@@ -1,0 +1,210 @@
+Input: a b c
+Output:
+    ERROR: You may only enter ONE string.
+Input: a               
+Output:
+    a
+Input: a,              
+Output:
+    a
+Input: a,               
+Output:
+    a
+Input: a,,              
+Output:
+    a
+Input: ,,              
+Output:
+    WARNING: Empty string returned.
+Input: abc              
+Output:
+    abc
+Input: ,a               
+Output:
+    a
+Input: a,,a             
+Output: 
+    a
+    a
+Input: a,,,a            
+Output:
+    a
+    a
+Input: a,a,a
+Output:
+    a
+    a
+    a
+Input: ,aaa,
+Output:
+    aaa
+Input: AAnd,Aand,aAnd,aand
+Output:
+    AAnd
+    Aand
+    aAnd
+    aand
+Input: zounds#zoo#marmosets#march#energetically
+Output:
+    zounds
+    zoo
+    marmosets
+    march
+    energetically
+Input: Systems$'\n'1Programming
+Output:
+    Systems
+    Programming
+Input: "Systems\t1Programming"
+Output:
+    Systems
+    Programming
+    t
+Input: "Systems\n1Programming"
+Output:
+    Systems
+    Programming
+    n
+Input: “thing1stuff3otherstuff,blarp”
+Output:
+    thing
+    stuff
+    otherstuff
+    blarp
+Input: a#12345b
+Output:
+    b
+    a
+Input: 4AAnd3Aand2aAnd1aand
+Output:
+    AAnd
+    Aand
+    aAnd
+    aand
+Input: "#######"
+Output:
+    WARNING: Empty string returned.
+Input: ""
+Output:
+    WARNING: Empty string returned.
+Input: " "
+Output:
+    WARNING: Empty string returned.
+Input: what2is$'\n'all$'\t'this
+Output:
+    what
+    this
+    is
+    all
+Input: "In the loveliest town of all, where the houses were white and high and the elms trees were green and higher than the houses, where the front yards were wide and pleasant and the back yards were bushy and worth finding out about, where the streets sloped down to the stream and the stream flowed quietly under the bridge, where the lawns ended in orchards and the orchards ended in fields and the fields ended in pastures and the pastures climbed the hill and disappeared over the top toward the wonderful wide sky, in this loveliest of all towns Stuart stopped to get a drink of sarsaparilla."
+Output:
+    Stuart
+    In
+    yards
+    yards
+    worth
+    wonderful
+    wide
+    wide
+    white
+    where
+    where
+    where
+    where
+    were
+    were
+    were
+    were
+    under
+    trees
+    towns
+    town
+    toward
+    top
+    to
+    to
+    this
+    the
+    the
+    the
+    the
+    the
+    the
+    the
+    the
+    the
+    the
+    the
+    the
+    the
+    the
+    the
+    the
+    the
+    than
+    streets
+    stream
+    stream
+    stopped
+    sloped
+    sky
+    sarsaparilla
+    quietly
+    pleasant
+    pastures
+    pastures
+    over
+    out
+    orchards
+    orchards
+    of
+    of
+    of
+    loveliest
+    loveliest
+    lawns
+    in
+    in
+    in
+    in
+    houses
+    houses
+    hill
+    higher
+    high
+    green
+    get
+    front
+    flowed
+    finding
+    fields
+    fields
+    ended
+    ended
+    ended
+    elms
+    drink
+    down
+    disappeared
+    climbed
+    bushy
+    bridge
+    back
+    and
+    and
+    and
+    and
+    and
+    and
+    and
+    and
+    and
+    and
+    and
+    all
+    all
+    about
+    a
+Input: Lopadotemachoselachogaleokranioleipsanodrimhypotrimmatosilphioparaomelitokatakechymenokichlepikossyphophattoperisteralektryonoptekephalliokigklopeleiolagoiosiraiobaphetraganopterygon
+Output:
+    Lopadotemachoselachogaleokranioleipsanodrimhypotrimmatosilphioparaomelitokatakechymenokichlepikossyphophattoperisteralektryonoptekephalliokigklopeleiolagoiosiraiobaphetraganopterygon
