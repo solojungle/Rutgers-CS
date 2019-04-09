@@ -28,8 +28,6 @@ int main(int argc, char *argv[])
         acceptSocketConnection(&server); // how to handle a connection request.
     }
 
-    printf("[%s+%s] Address: %u, has connected to the server.\n", GREEN, RESET, socketAddress.sin_addr.s_addr);
-    printf("[%s-%s] Address: %u, has disconnected from the server.\n", RED, RESET, socketAddress.sin_addr.s_addr);
     return 0;
 }
 
