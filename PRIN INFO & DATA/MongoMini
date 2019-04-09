@@ -1,0 +1,303 @@
+Ali Awari
+December 2018
+163-00-9393
+-- ####################################################################################################
+    Query syntax: MySQL definitely has Mongodb beat. SQL is much easier to conceptualize, while Mongo syntax can be confusing. I obviously have a large bias since
+I started with SQL but nonetheless, the time it took me to complete queries in SQL was miniscule in comparison to Mongo.
+    Out-of-the-box Setup: MongoDB effortlessly was up and running in no time. The documentation was simple and easy to use, and explained everything clearly.
+SQL being as old as it is, has conflicting points of how to setup a server, I finally ended up using Workbench to setup a localserver but it definitely was not fast nor easy.
+    Relations vs None: Having a relational database is useful due to the seperation of concerns, allowing less replica data and ease of removal of data. Non-relational
+databases are quicker and easier to setup but might have trouble scaling.
+-- ####################################################################################################
+-- #1 Find all reviews for a hotel ‘Desert Rose Resort’.
+db.reviews.find(
+    {
+        "HotelInfo.Name": "Desert Rose Resort"
+    }
+).pretty()
+-- ####################################################################################################
+		{
+			"Ratings" : {
+				"Service" : 5,
+				"Cleanliness" : "5",
+				"Business service (for example, internet access)" : "5",
+				"Check in / front desk" : "5",
+				"Overall" : 5,
+				"Value" : 5,
+				"Rooms" : "5",
+				"Location" : "4"
+			},
+			"AuthorLocation" : "Stafford UK",
+			"Title" : "“Great Place To Stay”",
+			"Author" : "UKBloke47",
+			"ReviewID" : "UR8122342",
+			"Content" : "We arrived 2 hours before the official check in time, but were given our room, with a quick check in, without any problem, the staff were friendly and efficient throughout our stay. We had a phone call from the manager 2 hours after arriving to see if everything was alright, but were not bothered again. The room turned out to be spacious, spotlessly clean, with a big TV that had the usual channels, plus pay per view films, the bedroom was a good size, with a big bed, the bathroom was an adequate size, and the kitchen was very well equipped with everything you need, tip, if you have transport and want to purchase food etc, take a right out of the resort on to E Reno Ave, drive the short distance to the Strip, make a left there, and drive south until you come to the Cancun hotel on the right, there is a large Food4Less on the opposite side of the road, with all your needs. The car park, stretches all the way round the resort, with close access to any room, making unloading easy and quick, the electronic room keys are needed to entrance the resort area. As has been said in other reviews, Hooters is the nearest casino, and only a couple of minutes walk, they do great all you can eat ribs for $16. The Tropicano is a little further, as is the MGM, where you can catch the monorail. To catch a bus along the Strip, take a right out of the resort, and right onto Reno, and it's just a short walk to the bus stop at the end of the road. We didn't eat at the complimentary continental breakfast, but the ones who did said it was good, we preferred to have a cooked one in our room. The pool area was not too busy, a good place to cool off. The elevator was quick when called, as there are only 3 floors, so you only spend seconds in there, the housekeeping staff we met on there, were always cheerful and friendly. I have to add, this wasn't our first choice place to stay in Vegas, we had booked a room in a moderate hotel/casino on the strip, but had the Desert Rose resort recommended to us by friends, and booked direct with them via their website, that saved us $70 compared to the price at the other hotel, this is where we will be staying on all our visits to Las Vegas.",
+			"Date" : ISODate("2007-07-15T04:00:00Z")
+		}
+	],
+	"HotelInfo" : {
+		"Name" : "Desert Rose Resort",
+		"HotelURL" : "/ShowUserReviews-g45963-d217598-Reviews-Desert_Rose_Resort-Las_Vegas_Nevada.html",
+		"Price" : "$86 - $238*",
+		"Address" : "<address class=\"addressReset\"> <span rel=\"v:address\"> <span dir=\"ltr\"><span class=\"street-address\" property=\"v:street-address\">5051 Duke Ellington Way</span>, <span class=\"locality\"><span property=\"v:locality\">Las Vegas</span>, <span property=\"v:region\">NV</span> <span property=\"v:postal-code\">89119</span></span> </span> </span> </address>",
+		"HotelID" : "2515578",
+		"ImgURL" : "http://media-cdn.tripadvisor.com/media/ProviderThumbnails/dirs/d0/1b/d01b467500fdec92f3e2694e0c5b1c855large.jpg"
+	}
+}
+-- ####################################################################################################
+-- #2 Number of ratings for each hotel. Sort the results.
+db.reviews.aggregate(
+    [
+        { $unwind : "$Reviews" },
+        { $unwind : "$Reviews.Ratings" },
+        { $group: { _id: "$HotelInfo.Name", "count": { $sum: 1 } } },
+        { $sort: { "count": -1 } }
+    ]
+)
+-- ####################################################################################################
+{ "_id" : null, "count" : 145117 }
+{ "_id" : "Bellagio Las Vegas", "count" : 9714 }
+{ "_id" : "MGM Grand Hotel and Casino", "count" : 8883 }
+{ "_id" : "Venetian Resort Hotel Casino", "count" : 7418 }
+{ "_id" : "Hotel Pennsylvania New York", "count" : 6261 }
+{ "_id" : "Planet Hollywood Resort & Casino", "count" : 6144 }
+{ "_id" : "The Mirage Hotel & Casino", "count" : 5941 }
+{ "_id" : "Treasure Island - TI Hotel & Casino", "count" : 5940 }
+{ "_id" : "Wynn Las Vegas", "count" : 5580 }
+{ "_id" : "Signature at MGM Grand", "count" : 5536 }
+{ "_id" : "Excalibur Hotel & Casino", "count" : 5532 }
+{ "_id" : "Floridays Resort Orlando", "count" : 5268 }
+{ "_id" : "Monte Carlo Resort & Casino", "count" : 5261 }
+{ "_id" : "Paris Las Vegas", "count" : 5209 }
+{ "_id" : "ARIA Resort & Casino", "count" : 5114 }
+{ "_id" : "Hudson New York", "count" : 5076 }
+{ "_id" : "Sheraton New York Hotel", "count" : 5034 }
+{ "_id" : "W New York - Times Square", "count" : 4980 }
+{ "_id" : "Mandalay Bay Resort & Casino", "count" : 4613 }
+{ "_id" : "Park Central", "count" : 4539 }
+Type "it" for more
+-- ####################################################################################################
+-- #3 Average overall ratings for each hotel. Sort the results
+db.reviews.aggregate(
+    [
+        { $unwind : "$Reviews" },
+        { $unwind : "$Reviews.Ratings" },
+        { $group: { _id: "$HotelInfo.Name", "avgRating": { $avg: "$Reviews.Ratings.Overall" } } },
+        { $sort: { "avgRating": -1 } }
+    ]
+)
+-- ####################################################################################################
+{ "_id" : "Residence Inn Indianapolis Fishers", "avgRating" : 5 }
+{ "_id" : "Hotel Igel", "avgRating" : 5 }
+{ "_id" : "Hostal Rio de Castro", "avgRating" : 5 }
+{ "_id" : "Residenza Grandi Vedute", "avgRating" : 5 }
+{ "_id" : "Conte House I", "avgRating" : 5 }
+{ "_id" : "Petit Prince", "avgRating" : 5 }
+{ "_id" : "The Mansion at MGM Grand", "avgRating" : 5 }
+{ "_id" : "Hotel Aquino", "avgRating" : 5 }
+{ "_id" : "Central Park Suite", "avgRating" : 5 }
+{ "_id" : "Eterna Roma", "avgRating" : 5 }
+{ "_id" : "Centro Pellegrini", "avgRating" : 5 }
+{ "_id" : "Freestanza Accommodation", "avgRating" : 5 }
+{ "_id" : "Hotel Konfidentiel", "avgRating" : 5 }
+{ "_id" : "Marini Park Hotel", "avgRating" : 5 }
+{ "_id" : "La Piazzetta di Roma", "avgRating" : 5 }
+{ "_id" : "Residenza Ca Felice", "avgRating" : 5 }
+{ "_id" : "Inn at The Black Olive", "avgRating" : 4.948275862068965 }
+{ "_id" : "Deko Rome", "avgRating" : 4.946902654867257 }
+{ "_id" : "The Mahana at Kaanapali resort", "avgRating" : 4.9411764705882355 }
+{ "_id" : "Hotel Le Isole", "avgRating" : 4.9375 }
+Type "it" for more
+-- ####################################################################################################
+-- #4 Show hotels with number of 5.0 overall ratings that they recieved.
+db.reviews.aggregate(
+    [
+        { $unwind : "$Reviews" },
+        { $unwind : "$Reviews.Ratings" },
+        { $match: { "Reviews.Ratings.Overall": 5 } },
+        { $group: { _id: "$HotelInfo.Name", "count": { $sum: 1 } } }
+    ]
+)
+-- ####################################################################################################
+{ "_id" : "Hilton Anatole", "count" : 95 }
+{ "_id" : "The Westin Galleria Dallas", "count" : 56 }
+{ "_id" : "Warwick Melrose Hotel Dallas", "count" : 120 }
+{ "_id" : "Sheraton Suites Market Center", "count" : 21 }
+{ "_id" : "Quality Inn Conference Center", "count" : 5 }
+{ "_id" : "Radisson Hotel Central Dallas", "count" : 4 }
+{ "_id" : "La Quinta Inn & Suites Dallas North Central", "count" : 10 }
+{ "_id" : "La Quinta Inn Dallas East (I-30)", "count" : 4 }
+{ "_id" : "La Quinta Inn Dallas Uptown", "count" : 8 }
+{ "_id" : "Holiday Inn Select Dallas North (Galleria Area)", "count" : 10 }
+{ "_id" : "Hawthorn Suites by Wyndham Dallas Love Field", "count" : 48 }
+{ "_id" : "Hilton Dallas Lincoln Centre", "count" : 21 }
+{ "_id" : "Rosewood Crescent Hotel", "count" : 31 }
+{ "_id" : "Hotel Indigo Dallas Downtown", "count" : 84 }
+{ "_id" : "Red Roof Inn Memphis East", "count" : 10 }
+{ "_id" : "Artisan Hotel Memphis", "count" : 1 }
+{ "_id" : "Holiday Inn Express - Medical Center Midtown", "count" : 6 }
+{ "_id" : "Courtyard by Marriott Memphis East/Park Avenue", "count" : 6 }
+{ "_id" : "Courtyard by Marriott Memphis Airport", "count" : 9 }
+{ "_id" : "Motel 6 Memphis - Graceland", "count" : 4 }
+Type "it" for more
+-- ####################################################################################################
+-- #5(i) Number of ratings given out per month
+db.reviews.aggregate(
+    [
+        { $unwind : "$Reviews" },
+        { $project: { 
+            _id: "$HotelInfo.Name" ,
+            monthNumber: { $month: "$Reviews.Date" },
+        } },
+        { $group: {
+            _id: "$monthNumber",
+            count: { $sum: 1}
+        }},
+        { $sort: { "_id": 1 } }
+    ]
+)
+-- ####################################################################################################
+{ "_id" : 1, "count" : 141046 }
+{ "_id" : 2, "count" : 124231 }
+{ "_id" : 3, "count" : 148357 }
+{ "_id" : 4, "count" : 132267 }
+{ "_id" : 5, "count" : 114000 }
+{ "_id" : 6, "count" : 128391 }
+{ "_id" : 7, "count" : 149957 }
+{ "_id" : 8, "count" : 152877 }
+{ "_id" : 9, "count" : 139987 }
+{ "_id" : 10, "count" : 153594 }
+{ "_id" : 11, "count" : 130001 }
+{ "_id" : 12, "count" : 107248 }
+-- ####################################################################################################
+-- #5(ii) Number of ratings given out per day of week.
+db.reviews.aggregate(
+    [
+        { $unwind : "$Reviews" },
+        { $project: { 
+            _id: "$HotelInfo.Name" ,
+            weekNumber: { $dayOfWeek: "$Reviews.Date" },
+        } },
+        { $group: {
+            _id: "$weekNumber",
+            count: { $sum: 1}
+        }},
+        { $sort: { "_id": 1 } }
+    ]
+)
+-- ####################################################################################################
+{ "_id" : 1, "count" : 217323 }
+{ "_id" : 2, "count" : 283292 }
+{ "_id" : 3, "count" : 263769 }
+{ "_id" : 4, "count" : 236146 }
+{ "_id" : 5, "count" : 234453 }
+{ "_id" : 6, "count" : 208368 }
+{ "_id" : 7, "count" : 178605 }
+-- ####################################################################################################
+
+-- #6 Number of reviews per author.
+db.reviews.aggregate(
+    [
+        { $unwind : "$Reviews" },
+        { $unwind : "$Reviews.Ratings" },
+        { $group: { _id: "$Reviews.Author", "count": { $sum: 1 } } }
+    ]
+)
+-- ####################################################################################################
+{ "_id" : "Yumbo", "count" : 1 }
+{ "_id" : "PupiCalagonone", "count" : 1 }
+{ "_id" : "MilanoLuca", "count" : 1 }
+{ "_id" : "hirogreen", "count" : 1 }
+{ "_id" : "purplemama", "count" : 1 }
+{ "_id" : "JohnFromChicago", "count" : 1 }
+{ "_id" : "njtraveler94", "count" : 1 }
+{ "_id" : "mommylovestotravel", "count" : 1 }
+{ "_id" : "Boots64", "count" : 1 }
+{ "_id" : "mdr2006", "count" : 1 }
+{ "_id" : "travelbang", "count" : 1 }
+{ "_id" : "NativeNewEnglander", "count" : 1 }
+{ "_id" : "roycityboy", "count" : 1 }
+{ "_id" : "TheFifer", "count" : 1 }
+{ "_id" : "AlisonMcG", "count" : 1 }
+{ "_id" : "rbwjdw", "count" : 1 }
+{ "_id" : "pete-from-oz", "count" : 1 }
+{ "_id" : "DWGLondon", "count" : 1 }
+{ "_id" : "Travelfind", "count" : 1 }
+{ "_id" : "roaddog1974", "count" : 1 }
+Type "it" for more
+-- ####################################################################################################
+-- BONUS: Finds the total number of reviews (To verify queries were accurate)
+db.reviews.aggregate(
+    [
+        { $unwind : "$Reviews" },
+        { $unwind : "$Reviews.Ratings" },
+        { $group: { _id: "Total # Of Ratings", "count": { $sum: 1 } } },
+        { $sort: { "count": -1 } }
+    ]
+)
+-- ####################################################################################################
+-- #1 Find all reviews for a hotel ‘Desert Rose Resort’.
+SELECT 
+    *
+FROM
+    reviews
+        INNER JOIN
+    hotels ON hotels.idHotels = reviews.Hotel_ID
+WHERE
+    hotels.name = 'Desert Rose Resort'
+-- ####################################################################################################
+-- #2 Number of ratings for each hotel. Sort the results.
+SELECT 
+    hotels.name AS 'Hotel Name', COUNT(*) AS '# Of Ratings'
+FROM
+    reviews
+        INNER JOIN
+    hotels ON hotels.idHotels = reviews.Hotel_ID
+GROUP BY hotels.name
+ORDER BY COUNT(*) DESC
+-- ####################################################################################################
+-- #3 Average overall ratings for each hotel. Sort the results
+SELECT 
+    hotels.name, AVG(reviews.overall)
+FROM
+    reviews
+        INNER JOIN
+    hotels ON hotels.idHotels = reviews.Hotel_ID
+GROUP BY hotels.name
+ORDER BY AVG(reviews.overall) DESC
+-- ####################################################################################################
+-- #4 Show hotels with number of 5.0 overall ratings that they recieved.
+SELECT 
+    hotels.name
+FROM
+    reviews
+        INNER JOIN
+    hotels ON hotels.idHotels = reviews.Hotel_ID
+WHERE
+    reviews.overall = 5
+-- ####################################################################################################
+-- #5(i) Number of ratings given out per month
+SELECT 
+    MONTH(date), COUNT(*)
+FROM
+    reviews
+GROUP BY MONTH(date)
+ORDER BY MONTH(date)
+-- ####################################################################################################
+-- #5(ii) Number of ratings given out per day of week.
+SELECT 
+    DAYOFWEEK(date), COUNT(*)
+FROM
+    reviews
+GROUP BY DAYOFWEEK(date)
+ORDER BY DAYOFWEEK(date)
+-- ####################################################################################################
+-- #6 Number of reviews per author.
+SELECT 
+    authors.name, count(*)
+FROM
+    reviews
+        INNER JOIN
+    authors ON authors.idAuthors = reviews.Author_ID
+GROUP BY authors.name
+-- ####################################################################################################

@@ -1,0 +1,37 @@
+names(df) <- c("company", "species", "REF", "review_year", "cocoa_p", "company_location", "rating", "bean_typ", "country")
+library(ggplot2)
+library(plotly)
+head(sort(table(df$rating), decreasing = TRUE), n=20)
+df <- flavors_of_cacao[-1, ]
+
+plot_ly(
+    x = c(1,1.5,1.75,2,2.25,2.5,2.75,3,3.25,3.5,3.75,4,5),
+    y = c(4,10,3,32,14,127,259,341,303,392,210,98,2),
+    type = "bar",
+    text = c(4,10,3,32,14,127,259,341,303,392,210,98,2),
+    color ='#7f7f7f',
+    textposition = "auto"
+) %>% layout(title="Ratings Distribution of Chocolate")
+
+plot_ly(df, x=~company_location, y=~rating, type = "box") %>% layout(title="Ratings to Company Location", xaxis= list(title=""), yaxis=list(title="Ratings"), margin = list(l = 50, r = 50, b = 120, t = 50, pad = 4))
+
+
+df2 <- df
+df2$cocoa_p <- as.numeric(sub("%","",df$cocoa_p))/100
+plot_ly(df, x=~cocoa_p, y=~rating, type = "box") %>% layout(title="Cocoa % to Ratings", xaxis= list(title=""), yaxis=list(title="Ratings"), margin = list(l = 50, r = 50, b = 120, t = 50, pad = 4))
+
+sort(tapply(df$cocoa_p, df$company_location, mean),decreasing = TRUE)
+
+nic.data = subset(df, df$company_location == "Nicaragua")
+other.data = subset(df, df$company_location != "Nicaragua")
+nic.rating <- nic.data$rating
+other.rating <- other.data$rating
+mean.nic <- mean(nic.rating)
+mean.other <- mean(other.rating)
+sd.nic <- sd(nic.rating)
+sd.other <- sd(other.rating)
+len.nic <- length(nic.rating)
+len.other <- length(other.rating)
+sd.diff <- sqrt(sd.other^2/len.other + sd.nic^2/len.nic)
+zeta <- (mean.other - mean.nic)/sd.diff
+p <- 1 - pnorm(zeta)

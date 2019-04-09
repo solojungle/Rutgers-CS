@@ -1,0 +1,98 @@
+=======================================================================
+QUERY 1:
+
+select distinct sells.beer
+from sells
+where sells.bar = "Gecko Grill" and sells.beer != "Hefeweizen"
+
+RESULT:
+'Budweiser'
+=======================================================================
+QUERY 2:
+
+select distinct likes.drinker 
+from likes, (select distinct likes.beer from likes where likes.drinker = "John") jb
+where likes.drinker != "John" and likes.beer = jb.beer
+
+RESULT:
+'Mike'
+'Vince'
+=======================================================================
+QUERY 3:
+
+select distinct barServeFavs.drinker, barServeFavs.bar
+from (select distinct likes.drinker, sells.bar, sells.beer from sells, likes where likes.beer = sells.beer) barServeFavs, frequents
+where frequents.drinker = barServeFavs.drinker and barServeFavs.bar = frequents.bar
+
+RESULT:
+'John','Cabana'
+'Mike','Cabana'
+'John','Caravan'
+'Mike','The Shark and Rose'
+'Mike','A.P. Stump\'s''
+'Jesse','Blue Angel'
+'Mike','Blue Angel'
+
+=======================================================================
+QUERY 4:
+
+select distinct f.bar, f.drinker
+from frequents f
+where f.bar != (select distinct f1.bar from frequents f1, frequents f2 where f1.drinker = 'John' and f2.drinker = 'Rebecca' and f1.bar = f2.bar)
+and (f.drinker = 'Rebecca' or f.drinker = 'John')
+
+RESULT:
+'Cabana','John'
+'Caravan','John'
+'Coconut Willie\'s Cocktail Lounge','Rebecca'
+'Gecko Grill','Rebecca''
+=======================================================================
+QUERY 5:
+
+select distinct L1.drinker
+from (select distinct likes.drinker, sells.bar from sells, likes where likes.beer = sells.beer) L1, frequents f
+where f.drinker = L1.drinker and f.bar = L1.bar
+
+RESULT:
+'Jesse'
+'John'
+'Mike'
+
+=======================================================================
+QUERY 6:
+
+select distinct s.bar, l.drinker, s.beer
+from likes l, sells s
+where l.beer = s.beer and (l.drinker = "John" or l.drinker = "Rebecca") and s.price < 5
+
+RESULT:
+'Club 175'
+'Coconut Willie\'s Cocktail Lounge''
+'Gecko Grill'
+'Giza Hookah Lounge'
+'Seven Bamboo'
+'The Backbeat'
+'The Shark and Rose'
+
+=======================================================================
+QUERY 7:
+
+select distinct L1.drinker
+from likes L1, likes L2
+where L1.drinker = L2.drinker and L1.beer = "Hefeweizen" and L2.beer = "Killian's"
+
+RESULT:
+'NULL'
+=======================================================================
+QUERY 8:
+
+select distinct bars.name
+from bars
+where bars.name like "%the%"
+
+RESULT:
+'The B-Hive'
+'The Backbeat'
+'The Blank Club'
+'The Shark and Rose'
+=======================================================================

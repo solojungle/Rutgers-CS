@@ -1,0 +1,224 @@
+=======================================================================
+QUERY 1:
+SELECT 
+    d.name
+FROM
+    drinkers d
+WHERE
+    NOT EXISTS( SELECT 
+            *
+        FROM
+            likes l
+        WHERE
+            l.drinker = d.name)
+
+RESULT:
+'Bob'
+'Erik'
+'Herb'
+'Justin'
+'Rebecca'
+'Tom'
+=======================================================================
+QUERY 2:
+SELECT 
+    bars.name
+FROM
+    bars
+WHERE
+    bars.name NOT IN (SELECT DISTINCT
+            sells.bar
+        FROM
+            sells
+                INNER JOIN
+            likes ON sells.beer = likes.beer
+        WHERE
+            drinker = 'Joe')
+
+RESULT:
+'Blue Angel'
+'Blue Tattoo'
+'Britannia Arms'
+'Cabana'
+'Caravan'
+'Club 175'
+'Coconut Willie\'s Cocktail Lounge'
+'Eulipia'
+'Gecko Grill'
+'Giza Hookah Lounge'
+'Il Fornaio'
+'Seven Bamboo'
+'The B-Hive'
+'The Backbeat'
+'The Blank Club'
+'The Shark and Rose'
+=======================================================================
+QUERY 3:
+SELECT DISTINCT
+    b.name
+FROM
+    beers b
+WHERE
+    b.name NOT IN (SELECT DISTINCT
+            T1.beer
+        FROM
+            (SELECT DISTINCT
+                *
+            FROM
+                likes
+            WHERE
+                drinker IN (SELECT 
+                        drinker
+                    FROM
+                        frequents
+                    WHERE
+                        bar = 'Cabana')) T1,
+            (SELECT DISTINCT
+                *
+            FROM
+                likes
+            WHERE
+                drinker IN (SELECT 
+                        drinker
+                    FROM
+                        frequents
+                    WHERE
+                        bar = 'Cabana')) T2
+        WHERE
+            T1.drinker != T2.drinker
+                AND T1.beer = T2.beer)
+RESULT:
+'Extra Gold'
+'Hefeweizen'
+'Hefeweizen Doppelbock'
+'ICEHOUSE'
+'Killian\'s'
+'Michelob Amber Bock'
+'Michelob Golden Draft'
+'Michelob Golden Draft Light'
+'Michelob ULTRA'
+'Original Premium'
+'Original Premium Lager'
+'Original Premium Lager Dog'
+'Sauza Diablo'
+'Southpaw Light'
+'Stolichnaya Citrona'
+'Zima'
+'Zima Citrus'
+=======================================================================
+QUERY 4:
+SELECT 
+    f3.drinker
+FROM
+    frequents f3
+WHERE
+    f3.drinker NOT IN (SELECT DISTINCT
+            f2.drinker
+        FROM
+            frequents f2
+        WHERE
+            f2.bar IN (SELECT 
+                    f1.bar
+                FROM
+                    frequents f1
+                WHERE
+                    f1.drinker = 'Tom'))
+RESULT:
+NULL
+=======================================================================
+QUERY 5:
+SELECT 
+    s.bar
+FROM
+    sells s
+WHERE
+    beer IN (SELECT 
+            beer
+        FROM
+            sells
+        WHERE
+            bar = 'Cabana')
+RESULT:
+'Britannia Arms'
+'Cabana'
+'Caravan'
+'Club 175'
+'Coconut Willie\'s Cocktail Lounge'
+'Gecko Grill'
+'Giza Hookah Lounge'
+'Seven Bamboo'
+'The Blank Club'
+'The Shark and Rose'
+=======================================================================
+QUERY 6:
+SELECT DISTINCT
+    T.x, T.y
+FROM
+    (SELECT 
+        f1.drinker AS x, 
+        f2.drinker AS y
+    FROM
+        frequents f1,
+        frequents f2
+    WHERE
+        f1.bar = f2.bar
+            AND f1.drinker != f2.drinker) T
+WHERE
+    T.x > T.y
+RESULT:
+'Erik','Bob'
+'Herb','Bob'
+'Herb','Erik'
+'Jesse','Bob'
+'Jesse','Erik'
+'Jesse','Herb'
+'Joe','Bob'
+'Joe','Erik'
+'Joe','Herb'
+'Joe','Jesse'
+'John','Bob'
+'John','Erik'
+'John','Herb'
+'John','Jesse'
+'John','Joe'
+'Justin','Bob'
+'Justin','Erik'
+'Justin','Herb'
+'Justin','Jesse'
+'Justin','Joe'
+'Justin','John'
+'Mike','Bob'
+'Mike','Erik'
+'Mike','Herb'
+'Mike','Jesse'
+'Mike','Joe'
+'Mike','John'
+'Mike','Justin'
+'Rebecca','Bob'
+'Rebecca','Erik'
+'Rebecca','Herb'
+'Rebecca','Jesse'
+'Rebecca','Joe'
+'Rebecca','John'
+'Rebecca','Justin'
+'Rebecca','Mike'
+'Tom','Bob'
+'Tom','Erik'
+'Tom','Herb'
+'Tom','Jesse'
+'Tom','Joe'
+'Tom','John'
+'Tom','Justin'
+'Tom','Mike'
+'Tom','Rebecca'
+'Vince','Bob'
+'Vince','Erik'
+'Vince','Herb'
+'Vince','Jesse'
+'Vince','Joe'
+'Vince','John'
+'Vince','Justin'
+'Vince','Mike'
+'Vince','Rebecca'
+'Vince','Tom'
+=======================================================================

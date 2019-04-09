@@ -1,0 +1,128 @@
+December 4th, 2018
+
+Quiz 10
+online at 8pm
+6.4, 6.5
+
+Condition for orthogonal diagonalization
+A = PDP^T
+(A)^T = (PDP^T)^T
+A^T = (P^T)^T*D^T*P^T
+A^T = PDP^T = A
+A^T = A
+
+If A has an orthogonal diagonalization A must be symmetric
+
+Can show the converse is also true
+(Theorem 6.15 pg. 426)
+
+Computation process:
+(i). Find eigenvalues and eigenvectors of A
+(ii). Eigenvectors of DISTINCT eigenvalues will be (automatically) orthogonal (Theorem 6.14)
+(iii). For eigenvectors of the same eigenvalues, use Gran-Schmidt process to find an orthogonal basis.
+(iv). ii & iii will give an orthogonal basis. Convert it to an orthonormal one
+
+
+Example:
+A = |0 2 2|
+    |2 0 2|
+    |2 2 0|
+
+(A is symmetric)
+- Find an orthogonal diagonalization
+
+Find eigenvalues
+
+det(A-𝛌I) = det |-𝛌 2 2| = 0
+                |2 -𝛌 2|
+                |2 2 -𝛌|
+
+-𝛌[(𝛌^2)-4]-2[-2𝛌-4]+2[4+2𝛌] = 0
+-𝛌(𝛌+2)(𝛌-2)+4(𝛌+2)+4(𝛌+2) = 0
+(𝛌+2)[-𝛌^2+2𝛌+4+4] = 0
+-(𝛌+2)(𝛌^2-2𝛌-8) = 0
+-(𝛌+2)(𝛌-4)(𝛌+2) = 0
+-(𝛌+2)^2(𝛌-4) = 0
+𝛌1 = 𝛌2 = -2
+𝛌3 = 4
+
+Find a basis for 𝛌1 = 𝛌2 = -2, eigenspace
+------------------------------------------
+(𝛌-(-2)I)x = 0;
+
+A = |2 2 2|
+    |2 2 2|
+    |2 2 2|
+
+RREF = |1 1 1|
+       |0 0 0|
+       |0 0 0|
+
+x = |-x2-x3| = x2 * |-1| + x3 * |-1|
+    |x2    |        |1 |        |0 |
+    |x3    |        |0 |        |1 |
+
+Basis of eigenspace is {u1 = [-1; 1; 0], [-1; 0; 1]}, make it orthogonal us G-S Method
+
+v1 = u1 = |-1|
+          |1 |
+          |0 |
+
+v2 = u2 - (((u2*v1)/norm(v1)^2)*v1)
+
+= [-1; 0; 1] - ((([-1; 0; 1] * [-1; 1; 0])/2)*[-1; 1; 0])
+= [-1; 0; 1] - [-1/2; 1/2; 0] = [-1/2; -1/2; 1]
+
+An orthogonal basis for 𝛌 = -2 eigenspace is:
+{v1 = [-1; 1; 0], v2 = [-1/2; -1/2; 1], = 1/2[1; 1; -2]}
+An orthonormal basis is:
+{[-1/sqrt(2); 1/sqrt(2); 0], - [-1/sqrt(6); 1/sqrt(6); 2/sqrt(16)]}
+
+Used ||c*v|| = |c|*||v||
+And c*v/|c|*||v||
+
+Find a basis for 𝛌 = +4 eigenspace
+Solve (A - 4I)x = 0
+A - 4I = [-4 2 2; 2 -4 2; 2 2 -4] 
+      -> [2 2 -4; 2 -4 2; -4 2 2]
+      -> [2 2 -4; 0 -6 6; 0 6 -6]
+      -> [1 1 -2; 0 1 -1; 0 0 0 ]
+      -> [1 0 -1; 0 1 -1; 0 0 0 ]
+
+The orthogonal diagonalization of
+[0 2 2; 2 0 2; 2 2 0] is
+[-1/sqrt(2) -1/sqrt(6) 1/sqrt(3); 1/sqrt(2) -1/sqrt(6) 1/sqrt(3); 0 2/sqrt(6) 1/sqrt(3)] "P"
+[-2 0 0; 0 -2 0; 0 0 4] "D"
+[-1/sqrt(2) 1/sqrt(2) 0; -1/sqrt(6) -1/sqrt(6) 2/sqrt(6); 1/sqrt(3) 1/sqrt(3) 1/sqrt(3)] "P^T"
+
+Spectral Decomposition Of A (Symmetric) Matrix
+
+symmetric <=> orthogonal diagonalization
+A = PDP^T
+
+A = [u1, u2, ..., un]*[𝛌1 0 ... 0; 0 𝛌2 0 ... 0; ...; 0 0 ... 𝛌n]*[u1^T;u2^T;...;un^T]
+  = [𝛌1*u1 𝛌2*u2 ... 𝛌nun]*[u1^T;u2^T;...;un^T]
+  = 𝛌1*u1*u1^T+𝛌2*u2*u2^T+ ... + 𝛌n*un*un^T
+A = 𝛌1P1+𝛌2P2+...+𝛌nPn = Spectral Decomposition of A
+
+Find A Spectral Decomposition Of
+A = [0 2 2; 2 0 2; 2 2 0]
+A = -2 * [-1/sqrt(2); 1/sqrt(2); 0] * [-1/sqrt(2) 1/sqrt(2) 0]
+  + -2 * [-1/sqrt(6); -1/sqrt(6); 2/sqrt(6)] * [-1/sqrt(6) -1/sqrt(6) 2/sqrt(6)]
+  + 4 *  [1/sqrt(3); 1/sqrt(3); 1/sqrt(3)] * [1/sqrt(3) 1/sqrt(3) 1/sqrt(3)]
+
+A = -2 * [1/2 -1/2 0; -1/2 1/2 0; 0 0 0]
+    - 2 * [1/6 1/6 -2/6; 1/6 1/6 -2/6; -2/6 -2/6 4/6]
+    + 4 * [1/3 1/3 1/3; 1/3 1/3 1/3; 1/3 1/3 1/3]
+
+Applications:
+    - The matrices P(i) in the Spectral Decomposition are rank 1 matrices
+    - Original matrix A could have rank = n
+    * if there is a large eigenvalue, the terms that corresponds to that will carry more information
+    - Useful for compression
+
+
+6.4) 423
+6.5) 434
+
+PG. 623

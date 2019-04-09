@@ -1,0 +1,18 @@
+train["Range"] <- "0"
+train$Range[train$Major == "Vocational"] <- "5"
+train$Range[train$Major == "Professional"] <- "4"
+train$Range[train$Major == "Humanities" | train$Major == "Buisness"] <- "3"
+train$Range[train$Major == "STEM"] <- "2"
+train$Range[train$Major == "Other"] <- "1"
+
+
+test[test$Major == "Vocational",]$Earnings <- test[test$Major == "Vocational",]$GPA*100+13000
+test[test$Major == "Professional",]$Earnings <- test[test$Major == "Professional",]$GPA*-100+12000
+test[test$Major == "Humanities",]$Earnings <- test[test$Major == "Humanities",]$GPA*103+9993
+test[test$Major == "Buisness" & test$Graduation_Year %% 2 != 0,]$Earnings <- test[test$Major == "Buisness" & test$Graduation_Year %% 2 != 0,]$GPA*-100+10000
+test[test$Major == "Buisness" & test$Graduation_Year %% 2 == 0,]$Earnings <- test[test$Major == "Buisness" & test$Graduation_Year %% 2 == 0,]$GPA*100+10000
+test[test$Major == "STEM",]$Earnings <- test[test$Major == "STEM",]$GPA*-100+10000
+test[test$Major == "Other",]$Earnings <- test[test$Major == "Other",]$Number_Of_Professional_Connections^2+test[test$Major == "Other",]$Number_Of_Professional_Connections+4984
+
+submission$Earnings <- test$Earnings
+write.csv(submission, "submission.csv", row.names =FALSE)

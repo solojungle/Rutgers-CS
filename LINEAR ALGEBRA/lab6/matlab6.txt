@@ -1,0 +1,98 @@
+% Ali Awari
+% 9393
+% Section 14241
+% Math 250 MATLAB Lab Assignment #6
+rand('seed', 9393)
+format compact
+format short
+% Question 1
+u = rvect(2), v = rvect(2)
+rank([u, v])
+% Question 1 a
+% Triangular Inequalities state: ||u + v|| <= ||u|| + ||v||
+% After doing calculations we find that:
+% 13.4536 <= 14.8959
+% Satisfies the inequality.
+norm(u)
+norm(v)
+norm(u+v)
+norm(u) + norm(v)
+% Question 1 b
+% Cauchy-Schwarz inequality: |u•v| <= ||u||•||v||
+% dot-product of uv is less than or equal to the norm's dot product of those vectors
+% 35 <= 55.4437
+% Satisfies the inequality
+abs(u'*v)
+norm(u)'*norm(v)
+% Question 1 c
+w = ((u'*v)/(v'*v))*v
+z = u - w
+z' * v
+% Question 1 d
+P = v*inv(v'*v)*v'
+P*u
+w
+% P is a 2x2 matrix because v*inv(v'*v) is a 2x1 matrix, and v' is a 1x2 matrix
+% multiplying those matrices together results in a 2x2 matrix respectively
+% Question 2
+u1 = rvect(3), u2 = rvect(3), u3 = rvect(3)
+rank([u1,u2,u3])
+% Question 2 a
+r = 0:0.05:1; hold on
+plot3(r*u1(1),r*u1(2),r*u1(3), 'r:')
+plot3(r*u2(1),r*u2(2),r*u2(3), 'g:')
+plot3(r*u3(1),r*u3(2),r*u3(3), 'b:')
+% None of the lines generated are perpendicular to one-another
+% Therefore, these vectors are not orthogonal to eachother
+% Question 2 b
+v1 = u1
+P1 = v1*inv(v1'*v1)*v1', v2 = u2 - P1*u2
+v1'*v2
+plot3(r*v2(1),r*v2(2),r*v2(3), 'g-.')
+P2 = v2*inv(v2'*v2)*v2', v3 = u3 - P1*u3 - P2*u3
+plot3(r*v3(1),r*v3(2),r*v3(3), 'b-.')
+% Question 2 c
+w1 = v1/norm(v1), w2 = v2/norm(v2), w3 = v3/norm(v3)
+Q = [w1, w2, w3]
+% Question i)
+% Q^T*Q results in an identity matrix for the following reasons:
+% Q contains vectors w1, w2, w3 which are orthonormal.
+% The dot product of any two distinct orthogonal vectors results in 0
+% wi is a row of Q^T, and wj is a column of Q
+% The dot product of Q^T*Q's vectors results in entries being 0
+% With the exception of the diagonal entries, they end up equalling 1
+% since they are the same.
+% Question ii)
+% Q^-1 is Q^T by definition of orthogonal matrices
+transpose(Q)*Q
+inv(Q)
+% Question 2 d
+A = [u1, u2, u3], R = Q'*A
+Q*R
+% The dot product of w2 • u1 = 0, the corresponding entry r21 = 0 because:
+% w2 is orthonormal and the 2nd column.
+% u1 is the 1st column.
+% The dot product of w3 • u1 = 0, the corresponding entry r31 = 0 because:
+% w2 is orthonormal and the 3rd column.
+% u1 is the 1st column. 
+% The dot product of w3 • u2 = 0, the corresponding entry r32 = 0 because:
+% w2 is orthonormal and the 3rd column.
+% u1 is the 2nd column. 
+% Question 3
+a1 = rvect(5); a2 = rvect(5); a3 = rvect(5); A = [a1, a2, a3]
+rank(A)
+% Question 3 a
+Q = grams(A); w1 = Q(:,1), w2 = Q(:,2), w3 = Q(:,3)
+Q'*Q
+% Q'*Q shows that {w1, w2, w3} is an orthonormal set of vectors because, multiplying a transpose of an orthonormal matrix
+% results in the identity matrix since you are using the dot product on entries to another setting the diagonal entries to 1
+% and everything else to 0
+% Question 3 b
+P = w1*w1' + w2*w2' + w3*w3'
+v = rvect(5)
+w = P * v, z = v-w
+P*w
+P*z
+% Question 3 c
+PW = A*inv(A'*A)*A'
+norm(PW-P)

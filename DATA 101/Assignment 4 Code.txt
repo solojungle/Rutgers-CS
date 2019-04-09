@@ -1,0 +1,39 @@
+library(ggplot2)
+library(plotly)
+plot_ly(
+    x = c("Loose Gun Laws", "Medium Gun Laws", "Strict Gun Laws"),
+    y = c(160, 793, 0),
+    type = "bar",
+    text = c(160,793,0),
+    color ='#7f7f7f',
+    textposition = "auto"
+) %>% layout(title="Gun Laws vs. When Gun Is Used")
+
+high <- subset(df, Gun_Laws == “Strict_Gun_Laws”)
+mid <- subset(df, Gun_Laws == “Medium_Gun_Laws”)
+low <- subset(df, Gun_Laws == “Loose_Gun_Laws”)
+cumsum(high$Monetary_Damage)
+cumsum(mid$Monetary_Damage)
+cumsum(low$Monetary_Damage)
+
+plot_ly(df, x = ~Weapon_Used, y = ~Monetary_Damage, color = ~Gun_Laws)%>% layout(title="Non-Cumulative Monetary Damage of Different Weapons")
+
+plot_ly(
+    x = c("Gun","No Weapon","Knife","Toy Gun"),
+    y = c(953, 879, 830, 789),
+    type = "bar",
+    text = c(953,879,830, 789),
+    textfont = list(color="white"),
+    color = c('red', 50, 25, 0),
+    textposition = "auto",
+    showlegend = FALSE
+) %>% layout(title="Weapon Usage")
+
+plot_ly(
+    x = c("Gun", "Toy Gun", "No Weapon", "Knife"),
+    y = c(15396.4, 24.728, 23.548, 23.254),
+    type = "bar",
+    text = c(15396.4,24.728,23.548,23.254),
+    color = c(15396.4,24.728,23.548,23.254),
+    textposition = "auto"
+) %>% layout(title="Average Monetary Damage Per Weapon")

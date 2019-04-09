@@ -1,0 +1,380 @@
+% Ali Awari
+% 9393
+% Section 14241
+% Math 250 MATLAB Lab Assignment #2
+rand('seed', 9393)
+format compact
+format short
+% Question 1 (a)
+A = rmat(3, 5), rank(A(:,1:3))
+A =
+     7     7     2     8     2
+     3     4     4     8     6
+     2     8     3     4     4
+ans =
+     3
+% If the rank is less than 3, generate a new A
+b = rvect(3), R = rref([A b])
+b =
+     5
+     6
+     7
+R =
+    1.0000         0         0    1.0435   -0.0870   -0.0870
+         0    1.0000         0   -0.3478   -0.1043    0.4957
+         0         0    1.0000    1.5652    1.6696    1.0696
+S = R(:,1:5)
+S =
+    1.0000         0         0    1.0435   -0.0870
+         0    1.0000         0   -0.3478   -0.1043
+         0         0    1.0000    1.5652    1.6696
+S = rref(A);
+% (i)
+% Columns 1,2, & 3 are pivot columns
+% (ii) 
+% Rank of R & A is 3
+% (iii)
+% A has a nullity of 2, x4,x5 are free variables
+% (iv)
+% Because the matrix is consistent (no zero row).
+% Question 1 (b)
+c = R(:,6)
+c =
+   -0.0870
+    0.4957
+    1.0696
+x = [c; 0; 0]
+x =
+   -0.0870
+    0.4957
+    1.0696
+         0
+         0
+% Question 1 (b) i
+A*x - b
+ans =
+     0
+     0
+     0
+S*x - c
+ans =
+     0
+     0
+     0
+% Question 1 (b) ii
+% The Corollary from Theorem 2.3 on page 127 states: "...Ax=b has the same solutions as
+% Rx=c, where [R c] is the reduced row echelon form of the augmented matrix
+% [A b]." (Lawrence 127)
+% We found A,S,x,c,b and Ax = b implies Ax - b = 0 showed true. Which the
+% Column Correspondence Property we can also assume that: Because Ax - c = 0:
+% implies Sx - c = 0 which was shown true.
+% Question 1 (c)
+u = [-S(:,4); 1; 0], v = [-S(:,5);0;1]
+u =
+   -1.0435
+    0.3478
+   -1.5652
+    1.0000
+         0
+v =
+    0.0870
+    0.1043
+   -1.6696
+         0
+    1.0000
+% Question 1 (c) i
+% A has two free variables, and three basic variables. Generating a vector by
+% negating the basic variables and putting arbitrary numbers for the free variables
+% creates new vectors within the span of A.
+S*u
+ans =
+     0
+     0
+     0
+A*u
+ans =
+     0
+     0
+     0
+S*v
+ans =
+     0
+     0
+     0
+A*v
+ans =
+   1.0e-15 *
+    0.2220
+         0
+         0
+s = rand(1)
+s =
+    0.3294
+t = rand(1)
+t =
+    0.0432
+y = (s*u)+(t*v)
+y =
+   -0.3400
+    0.1191
+   -0.5877
+    0.3294
+    0.0432
+% Question 1 (c) ii
+A*y
+ans =
+   1.0e-15 *
+   -0.2914
+    0.0139
+   -0.1388
+% Ay = 0 | y = su+tv 
+% A(su+tv) = 0
+% Property (a): A(u+v) = Au+Av => A(su+tv) = A(su)+A(tv)
+% A(su)+A(tv) = 0
+% Question 1 (d)
+z = x + y
+z =
+   -0.4269
+    0.6147
+    0.4819
+    0.3294
+    0.0432
+A*z-b
+ans =
+   1.0e-15 *
+         0
+    0.8882
+    0.8882
+% z = x+y
+% 1.3 (a): A(u+v) = Au+Av
+% Az = A(x+y) = Ax+Ay
+% Ax+Ay = b
+% Proven that Ay = 0 previously
+% Ax+0 = b
+% Ax = b
+% Ax-b = 0
+% Question 2
+u1 = rvect(3)
+u1 =
+     2
+     5
+     4
+u2 = rvect(3)
+u2 =
+     9
+     6
+     4
+u3 = rvect(3)
+u3 =
+     0
+     6
+     6
+u4 = rvect(3)
+u4 =
+     3
+     3
+     9
+% Question 2(a)
+A = [u1 u2 u3]
+A =
+     2     9     0
+     5     6     6
+     4     4     6
+rref(A)
+ans =
+     1     0     0
+     0     1     0
+     0     0     1
+% Question 2(a) i
+% There are no free variables
+% Question 2(a) ii
+% It is linearly independent, there are no free variables, and the
+% matrix is consistent for all values
+% Question 2(b)
+B = [u1 u2 u3 u4]
+B =
+     2     9     0     3
+     5     6     6     3
+     4     4     6     9
+rref(B)
+ans =
+    1.0000         0         0  -12.0000
+         0    1.0000         0    3.0000
+         0         0    1.0000    7.5000
+% Question 2(b) i
+% There is 1 free variable, x4
+% Question 2(b) ii
+% B is linearly dependent since there is a free variable, where a scalar
+% c can be a non-trivial solution
+% Question 2(c)
+v = rand(1)*u1 + rand(1)*u2
+v =
+    6.6785
+    6.1256
+    4.3879
+% C is linearly dependent, v is a linear combination of the vectors
+% in C which will result in a free variable
+C = [u1 u2 v]
+C =
+    2.0000    9.0000    6.6785
+    5.0000    6.0000    6.1256
+    4.0000    4.0000    4.3879
+rref(C)
+ans =
+    1.0000         0    0.4563
+         0    1.0000    0.6407
+         0         0         0
+% Question 3
+A = rmat(2,3)
+A =
+     4     9     9
+     3     6     3
+B = rmat(3, 4)
+B =
+     2     7     4     4
+     3     9     7     5
+     1     2     3     7
+C = rmat(4,3)
+C =
+     1     3     1
+     9     9     9
+     5     1     2
+     8     4     6
+v = rvect(4)
+v =
+     0
+     8
+     0
+     4
+% Question 3 (a)
+u = B*v
+u =
+    72
+    92
+    44
+A*u
+ans =
+        1512
+         900
+D = A*B
+D =
+    44   127   106   124
+    27    81    63    63
+D*v
+ans =
+        1512
+         900
+% Question 3 (b)
+A = [0 1; 0 0]
+A =
+     0     1
+     0     0
+B = [0 0; 1 0]
+B =
+     0     0
+     1     0
+C = [0 1; 1 0]
+C =
+     0     1
+     1     0
+% Question 3 (b) i
+A*B
+ans =
+     1     0
+     0     0
+B*A
+ans =
+     0     0
+     0     1
+% AB != BA
+(A+B)*(A+B)
+ans =
+     1     0
+     0     1
+(A*A)+((2*A)*(B))+(B*B)
+ans =
+     2     0
+     0     0
+% (A+B)^2 != A^2+2AB+B^2
+% Question 3 (b) ii
+A*A
+ans =
+     0     0
+     0     0
+% A^2 if it was a number would be that number multiplied by itself
+% For matrices this pattern doesn't hold.
+% Question 3 (b) iii
+A*C
+ans =
+     1     0
+     0     0
+A*B
+ans =
+     1     0
+     0     0
+% I would conclude that B = C since they both result in the same answer
+% This isn't true with matrices, matrix multiplication is different
+% Question 4
+A = [0 0 0 1 0 1;1 0 1 1 0 0;0 1 0 1 0 0;1 0 1 0 0 0;1 1 1 0 0 1;0 0 1 1 0 0]
+A =
+     0     0     0     1     0     1
+     1     0     1     1     0     0
+     0     1     0     1     0     0
+     1     0     1     0     0     0
+     1     1     1     0     0     1
+     0     0     1     1     0     0
+% Question 4 i
+% Image Provided.
+% Question 4 ii
+% Yes, the following:
+% P1 can't receive from: P3, P6
+% P2 can't receive from: P1, P4, P6
+% P3 can't receive from: P1
+% P4 can't receive from: P5
+% P5 can't receive from: P1, P2, P3, P4, P6
+% P6 can't receive from: P2, P3, P4
+% Lines from the graph show this.
+% Looking at the row number of the corresponding node name, then finding a '1' in a column
+% which corresponds to a different node shows the same thing.
+% Question 4 iii
+A+A*A
+ans =
+     1     0     2     2     0     1
+     2     1     2     3     0     1
+     2     1     2     2     0     0
+     1     1     1     2     0     1
+     2     2     3     4     0     2
+     1     1     2     2     0     0
+A+A*A+A*A*A
+ans =
+     2     2     3     5     0     2
+     5     2     6     7     0     2
+     3     3     3     6     0     2
+     4     1     5     4     0     1
+     7     4     9     9     0     3
+     3     2     4     5     0     1
+A+A*A+A*A*A+A*A*A*A
+ans =
+     7     3     9    10     0     3
+    10     6    12    16     0     5
+     9     4    11    12     0     3
+     6     5     7    11     0     4
+    14    10    17    23     0     8
+     7     4     9    11     0     3
+% Using the adjacency matrix of A+A*A... provides an easy way to see what happens at
+% each stage by looking at the (i,j) entry: (1,4) to be specific.
+% Stage 1: P1 has one way, and cumulatively one way of sending a message to P4
+% Stage 2: P1 has one way, and cumulatively two ways of sending a message to P4
+% Stage 3: P1 has three ways, and cumulatively five ways of sending a message to P4
+% Stage 4: P1 has five ways, and cumulatively ten ways of sending a message to P4
+% Question 4 iv
+B = (A)+(A*A)+(A*A*A)+(A*A*A*A)
+B =
+     7     3     9    10     0     3
+    10     6    12    16     0     5
+     9     4    11    12     0     3
+     6     5     7    11     0     4
+    14    10    17    23     0     8
+     7     4     9    11     0     3
+% By looking at the (3,4) entry of B we can determine the following:
+% P3 has cumulatively twelve ways of sending a message to P4

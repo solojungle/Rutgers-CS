@@ -1,0 +1,101 @@
+=======================================================================
+QUERY #1:
+
+SELECT 
+    RESTAURANT, COUNT(*)
+FROM
+    TRIPADVISOR t
+WHERE
+    t.review_stars = 3
+GROUP BY t.RESTAURANT
+ORDER BY RANK
+
+RESULT:
+'Ritz Restaurant','8'
+'Prologue Restaurant & Bar','7'
+'Pierogarnia Mandu','21'
+'Familia Bistro','3'
+'Wine Bar & Restaurant Literacka','5'
+'Jozef K','3'
+'Retro Cafe','20'
+'Flisak 76','2'
+'Monte Carlo Pizza i Wino','2'
+'Restaurant Metamorfoza','10'
+'Sempre Pizza e Vino - Targ Rybny','26'
+'Nova Pierogova','8'
+'Pueblo','19'
+'LULA food & drink','2'
+'Mercato restaurant','5'
+'Original Burger','44'
+'Pikawa','8'
+'Avocado Vegan and Eko','1'
+'Restauracja Targ Rybny','36'
+'Goldwasser','50'
+'A La Francaise','6'
+'Restauracja Kokieteria','8'
+'Cafe Factotum','1'
+'Hard Rock Cafe','42'
+'Bellevue Restaurant','9'
+'PobiteGary','8'
+'Oliwa Do Ognia','3'
+'Kubicki','40'
+'Bar Pod Ryba','13'
+'The Red Door','7'
+'Surf Burger','4'
+'Swojski Smak','14'
+'Drukarnia Cafe','1'
+'Dominikanska Restaurant','2'
+'La Pampa Steak House','30'
+'Pod Lososiem Restaurant','17'
+'P&M Pasta and More','5'
+'Bioway','4'
+'Gdanski Bowke','28'
+'Tawerna Mestwin','3'
+'La Famiglia Pizza','3'
+'Billy\'s American Restaurant','31'
+'Cala Naprzod','8'
+'Pyra Bar','9'
+'Cafe Kamienica','2'
+'Szafarnia 10','2'
+'W Starym Kadrze','3'
+'Fellini','1'
+'San Marco Ristorante E Pizzeria','1'
+'Restauracja Euro','1'
+=======================================================================
+QUERY #2:
+SELECT 
+    RANK, RESTAURANT, AVG(REVIEW_STARS) AS 'AVG REV'
+FROM
+    TRIPADVISOR t
+WHERE
+    ((RANK > 0 AND RANK < 11)
+        OR (RANK > 56 AND RANK < 250))
+GROUP BY t.RESTAURANT
+ORDER BY RANK
+
+RESULT:
+'1', 'Ritz Restaurant', '4.6944'
+'2', 'Prologue Restaurant & Bar', '4.6735'
+'3', 'Pierogarnia Mandu', '4.6038'
+'4', 'Familia Bistro', '4.6444'
+'5', 'Wine Bar & Restaurant Literacka', '4.4968'
+'6', 'Jozef K', '4.5250'
+'7', 'Retro Cafe', '4.4247'
+'8', 'Flisak 76', '4.5301'
+'9', 'Allora', '4.8889'
+'10', 'Monte Carlo Pizza i Wino', '4.7308'
+'57', 'Pyra Bar', '4.1724'
+'58', 'Cafe Kamienica', '4.2895'
+'59', 'Szafarnia 10', '4.4000'
+'60', 'W Starym Kadrze', '4.5938'
+'61', 'Fellini', '3.0000'
+'70', 'Brovarnia Gdansk', '5.0000'
+'80', 'Miasto Aniolow Restaurant', '1.0000'
+'116', 'Restauracja Gdanska', '5.0000'
+'143', 'San Marco Ristorante E Pizzeria', '3.0000'
+'249', 'Restauracja Euro', '3.0000'
+=======================================================================
+QUERY #3:
+
+REMOVED
+=======================================================================

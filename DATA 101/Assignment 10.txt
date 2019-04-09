@@ -1,0 +1,8 @@
+library(rpart)
+library(rpart.plot)
+tree <- rpart(Party ~ Days_Since_Last_Doctor_Visit + Shoe_Size, data = train, control = rpart.control(minsplit = 60))
+
+
+decision  <- predict(tree, newdata=test, type="class")
+FBsubmission$Party <- decision
+write.csv(FBsubmission, "FBsubmission.csv", row.names =FALSE)

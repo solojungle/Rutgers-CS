@@ -1,0 +1,22 @@
+plot_ly(
+    x = c("Non-Athelete", "Athlete"),
+    y = c(5.339, 11.37),
+    color = c('Non-Athlete', 'Athlete')
+) %>% layout(title="Mean GPA for Students")
+
+plot_ly(
+    x = c("Non-Athelete", "Athlete"),
+    y = c(5.339, 11.37),
+    color = c(5.339,11.37)
+) %>% layout(title="Hours Spent on Homework")
+
+
+boxplot(ath$GPA~ath$School, main="GPA per School")
+
+plot_ly(
+    x = c("Berkley", "Cal Tech", "Harvard", "NYU", "Rutgers", "Vassar"),
+    y = c(8, 23, 27, 12, 14, 12),
+    color = c(8, 23, 27, 12, 14, 12)
+) %>% layout(title="Athletes in Schools")
+
+boxplot(ath$Hours_Spent_On_Homework_Per_Week~ath$School, main="Athletes/School Hours Spent")

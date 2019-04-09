@@ -1,0 +1,153 @@
+diary lab3.txt
+format compact
+% Ali Awari
+% 9393
+% Section 14241
+% Math 250 MATLAB Lab Assignment #3
+rand('seed', 9393)
+format compact
+format short
+% Question 1 (a)
+A = rand(3), A(1,1), det(A(1:2,1:2)), det(A)
+U = A
+col1
+U = L1*U
+% col1.m attempts to transform U by performing an elementary row operation
+% this can be achieved by taking an identity matrix and applying a single
+% operation to the identity matrix creating an elementary matrix,
+% then by multiplying that to the original matrix, in this case col1
+% combines two elementary row operations in order to clear out the
+% numbers below the first pivot in a 3x3 matrix U.
+% row 2 pivot 1 subtracted by the number that would make it a zero.
+% row 3 pivot 1 subtracted by the number that would make it a zero.
+% Question 1 (b)
+col2
+U = L2*U
+U = L2*L1*A
+% col2.m will attempt a similar operation to col1.m.
+% row 3 pivot 2 is subtracted by the number that will make it zero.
+% Question 1 (c)
+inv(L1), inv(L2), L = inv(L1)*inv(L2)
+A = L*U
+% Question 2 (a)
+% inv(L) = L2*L1
+inv(L)
+inv(U)
+L2*L1
+% Question 2 (b)
+b = rvect(3)
+c = inv(L)*b
+x = inv(U)*c
+A*x
+% Question 3
+A = rand(500) ; b = rand(500,1); [L U] = lu(A);
+% Question 3 (a)
+tic; R = rref([A b]); y = R(:,501); rreftime = toc
+% Question 3 (b)
+tic; c = inv(L)*b; x = inv(U)*c; lutime = toc
+norm(x - y)
+% Question 3 (c) i
+% (2cn^3/3)/(2cn^2) = 2cn^3/6cn^2 = cn^3/3cn^2 = n/3 = 500/3 = ~166.667
+% Question 3 (c) ii
+rreftime/lutime
+% Question 4 (a)
+a = rmat(4,4)
+c = cofactor(a)
+a(1,1)*c(1,1) + a(1,2)*c(1,2) + a(1,3)*c(1,3) + a(1,4)*c(1,4)
+a(2,1)*c(2,1) + a(2,2)*c(2,2) + a(2,3)*c(2,3) + a(2,4)*c(2,4)
+a(1,3)*c(1,3) + a(2,3)*c(2,3) + a(3,3)*c(3,3) + a(4,3)*c(4,3)
+a(1,4)*c(1,4) + a(2,4)*c(2,4) + a(3,4)*c(3,4) + a(4,4)*c(4,4)
+% According to Theorem 3.1, "the determinant of an n x n matrix can be 
+% evaluated using a cofactor expansion along any row.", because,
+% there exists only 1 determinant for a given matrix
+% Theorem 3.4 property (c) states that the transpose of a matrix will still
+% have the same determinant for any orientation, therefore the cofactor
+% expansion using a column will have the same determinant if you used
+% the cofactor expansion of a row.
+% Question 4 (b)
+A = rmat(5,5), U = triu(A)
+A(1,1)*A(2,2)*A(3,3)*A(4,4)*A(5,5)
+U(1,1)*U(2,2)*U(3,3)*U(4,4)*U(5,5)
+% Matrix A is not a diagonal matrix so you cannot
+% Matrix U is a triangular matrix you CAN use this method to find the det(U)
+det(A)
+det(U)
+% Question 4 (c)
+A = rmat(5,5)
+B = A; B(2,:) = A(1,:); B(1,:) = A(2,:)
+% Question 4 (c) i
+% A row exchange will flip the sign of the determinant
+det(A)
+det(B)
+C = A; C(2,:) = A(2,:) + 10*A(1,:)
+% Question 4 (c) ii
+% They have the same value, the operation in which you add a multiple
+% of a row to another doesn't change the determinant
+det(A)
+det(C)
+D = A; D(1,:) = 10*A(1,:)
+% Question 4 (c) iii
+% If you multiply a row by itself the determinant be a multiple of the
+% constant used, D will be det(A)*10
+det(A)
+det(D)
+det(A)*10
+% Question 4 (d)
+A = rmat(5,5)
+A(1,1)=0; A(2,1) = 0
+[P, L, U, sign] = splu(A)
+P*A
+L*U
+% Question 4 (d) i
+det(P)
+% The det(P) = -1. P is an identity matrix with a row exchange flipping sign.
+% Question 4 (d) ii
+det(L)
+% The det(L) = 1. L is a triangular matrix so the product of its diagonal
+% is the determinant.
+% Question 4 (d) iii
+% det(A) = -det(U). U is matrix A but with a row exchange thus, not changing
+% its determinant besides a flip.
+% Question 5
+H = house; plot2d(H), hold on
+% Question 5 (a)
+t = pi/6; Q = [cos(t), -sin(t); sin(t), cos(t)]
+plot2d(Q*H)
+% Question 5 (a) i
+% The house has been rotated counter-clockwise
+% Question 5 (a) ii
+det(Q)
+% The det(Q) tells us that the area is the same inside the house before
+% rotation
+% Question 5 (a)
+t = - pi/3
+t = -pi/3; Q = [cos(t), -sin(t); sin(t), cos(t)]
+plot2d(Q*H)
+% (i) House rotated clockwise
+det(Q)
+% (ii) Area is the same
+% Question 5 (b)
+r = .9; D = [r, 0; 0, 1/r ]
+plot2d(D*H)
+% (i) The house has been squeezed closer to itself
+det(D)
+% (ii) Area is the same
+r = .8; D = [r, 0; 0, 1/r ]
+plot2d(D*H)
+% (i) The house has been squeezed even more.
+det(D)
+% (ii) Area is the same
+% Question 5 (c)
+t = 1/2; T = [1, t; 0, 1]
+plot2d(T*H)
+% (i) Skews the house to the right
+det(T)
+% (ii) Area is the same
+t = - 1/2; T = [1, t; 0, 1]
+plot2d(T*H)
+% (i) Skews the house to the left
+det(T)
+% (ii) Area is the same
+% Because the area is the same for all transformations we can see that
+% transformation are lossless, in terms of area since the determinant was
+% the same for all.

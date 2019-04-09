@@ -1,0 +1,123 @@
+% Ali Awari
+% 9393
+% Section 14241
+% Math 250 MATLAB Lab Assignment #4
+rand('seed', 9393)
+format compact
+format short
+% Question 1
+A = rmat(3,2)
+rank(A)
+% Question 1 (a)
+u = A(:,1), v = A(:,2)
+[s,t] = meshgrid((-1:0.1:1), (-1:0.1:1));
+X = s*u(1)+t*v(1); Y = s*u(2)+t*v(2); Z = s*u(3)+t*v(3);
+surf(X,Y,Z); axis square; colormap hot, hold on
+% Question 1 (b)
+b = rvect(3)
+r = -1:0.05:1;
+plot3(r*b(1),r*b(2),r*b(3), '--')
+% Question 1 (c)
+% No you cannot, the span of Col(A) does not have a generating set
+% that could generate a vector x to suffice Ax = b
+% Question 1 (d)
+z = rand(2,1), c = A*z
+figure, surf(X,Y,Z); axis square; colormap hot, hold on
+plot3(r*c(1),r*c(2),r*c(3), '+')
+% Question 2
+B = rmat(3,3), rank(B)
+A = [B(:,1), B(:,2), 2*B(:,1) + 3*B(:,2), 4*B(:,1) - 5*B(:,2), B(:,3)],
+R = rref(A)
+% Question 2 (a)
+% Since Rank(B) was 3, all columns were pivot columns, we then created
+% a new matrix with two more columns, 3,4. Which were linearly combinations
+% of the other columns, when we convert to rref, this is reflected.
+
+% Column 3 is [2, 3, 0] and Column 4 is [4, -5, 0] because we created
+% a linear combination of the pivot columns of matrix A, and the
+% resulting vectors were the operations applied to the pivot columns
+
+% Question 2 (b)
+% The free variables are x3 and x4, the dimension of a null space 
+% is the nullity, which is # of columns - rank => 5 - 3 = 2
+% dim(Null(A)) = 2
+
+
+% Question 2 (c)
+N = nulbasis(A)
+v1 = N(:,1), v2 = N(:,2)
+
+% v1: Component #3 is '1', Components #4, #5 are '0'
+% v2: Component #4 is '1', Components #3, #5 are '0'
+% Question 2 (d)
+s = rand(1), t = rand(1), x = s*v1 + t*v2
+
+% x satisfies both equations for the following reasons:
+% x is a linear combination of the vectors in A
+% which would place x in the null space of A
+% the null space is the solution of Ax = 0
+% due to column correspondence, this is also the solution
+% to rref(A)
+
+% Question 3
+% Question 3 (a)
+A = rmat(5, 3), R = rref(A)
+
+% There are vectors for which Ax=b has no solution since the matrix
+% needs to be consistent, but since there are more equations than variables
+% the matrix isn't consistent
+
+b = rmat(5,1), xp = partic(A, b)
+b = rand(1)*A(:,1) + rand(1)*A(:,2) + rand(1)*A(:,3)
+xp = partic(A, b)
+A*xp
+
+% The books says "vector b is a linear combination of the columns of A."
+% If b is a linear combination of the vectors, then the matrix will
+% always be consistent
+
+% Question 3 (b)
+A = rmat(3, 5), R = rref(A)
+
+
+% Ax = b has a solution for every vector because,
+% it is consistent, the rank of A is, the number of rows of A
+
+b = rmat(3,1), xp = partic(A, b)
+
+% 4,5 are zero because they are free variables of a reduced matrix
+% therefore not being basic variables nor in the basis.
+
+A*xp
+% Question 4
+N = nulbasis(A)
+v1 = N(:,1), v2 = N(:,2)
+x = xp + rand(1)*v1 + rand(1)*v2
+A*x
+% Question 4 (b)
+x = xp + -9*v1 + 8*v2
+A*x
+% Question 5
+% Question 5 (a)
+A = [0.30, 0; 0.14, 0; 0.56, 1]
+B = [0.5, 0, 0; 0.5, 1, 0.6; 0, 0, 0.4]
+C = [1,0.3,0;0,0.2,0;0,0.35,0.7;0,0.15,0.3]
+M = C*B*A
+x = 1000*rvect(2), y = A*x, z = B*y, w = C*z
+[1 1]*x, [1 1 1]*y, [1 1 1]*z, [1 1 1 1]*w
+
+% Every answer is the total number of cars in the system at a given time.
+
+% Question 5 (b)
+y = [270 126 704]'
+x = partic(A,y)
+A*x
+
+% Entering traffic flow vector x is uniquely determined. Ax=y is
+% overdetermined, therefore 3 equations but 2 vectors
+
+% Question 5 (c)
+w = [100 200 300 400]'
+rref([M w])
+% There is no solution, Mw is not consistent.
+x = partic(M, w)

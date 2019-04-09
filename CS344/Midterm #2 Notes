@@ -1,0 +1,99 @@
+Kruskals:
+
+    ANALYSIS:
+    +----------------------------------------------+
+    | Operation            | Freq. | Cost | Total  |
+    +----------------------------------------------+
+    | Build priority queue | 1     | E    | E      |
+    | Delete-minimum       | E     | logE | E*logE |
+    | Union                | V     | logV | V*logV |
+    | Connected            | E     | logV | E*logV |
+    +----------------------------------------------+
+    
+    Most expensive operation:
+        Delete-minimum: E*logE
+
+Prims:
+
+    ANALYSIS:
+    +-------------------------------------------------------------------------+
+    | PQ Implementation | Insert  | Delete-min | Decrease-key | Total         |
+    +-------------------------------------------------------------------------+
+    | Unordered Array   | 1       | V          | 1            | V^2           |
+    | Binary Heap       | log V   | log V      | log V        | E*log V       |
+    | D-way Heap        | log4(V) | D*logd(V)  | logd(V)      | E*log(e/4)(V) |
+    | Fibonacci heap    | 1       | log V      | 1            | E + V*log V   |
+    +-------------------------------------------------------------------------+
+    
+    - Array is best for dense graphs.
+    - Binary heap is best for sparse graphs.
+    - 4-way heap worth the trouble in performance-critical situations.
+    - Fibonacci best in theory but not worth implementing.
+
+    Kruskals is better for sparse, has simpler data structures.
+    Prims is better for dense, better data structures.
+
+--
+
+# Single Source Shortest Path:
+
+Dijkstra's (Updates previous paths):
+
+    - Works when weight(n,v) >= 0
+    - Initialize distance array.
+    - Pick source node (S), relax edges.
+    - Choose closest vertex to S, and relax all it's edges.
+    - Choose closest vertex to S, and relax all it's edges.
+
+    +-----------------------------------------------+
+    | Queue       | S | A   | B   | C   | D   | E   | 
+    +-----------------------------------------------+
+    | S           | 0 | inf | inf | inf | inf | inf |
+    | S,B         |   | 5,S | 1,S | 8,B | inf | inf |
+    | S,B,C       |   | 5,S |     | 4,B | inf | 8,B |
+    | S,B,C,A     |   | 5,S |           | inf | 8,B |
+    | S,B,C,A,D   |                     | 7,A | 8,B |
+    | S,B,C,A,D,E |                           | 8,B |
+    +-----------------------------------------------+
+    *ONLY PART OF EQUATION TO DEMONSTRATE ANSWER CONVENTION.
+
+    ANALYSIS:
+    - In Djikstra's each edge will be relaxed once.
+    - Big Oh(|V|+|E|*log|V|).
+
+Bellman-Ford (Solving inequalities):
+
+    - Works for general weights and it can detect negative cycle.
+    - In general Bellman-Ford you iterate n-1 times to find the shortest distance, and the nth iteration is to check for negative cycles. 
+    - Every inequality is a directed line.
+    - The "negative" x is the source, the other is the target.
+    - Because there is 5 vertices excluding v0, we will do 6 iterations.
+    - Create a v0 node, connect it to all inequalities with weight of 0.
+    - Relax all nodes.
+    - Check the incoming edge for change, only ONE update per iteration, so if a node updates you must wait to reflect that in it's children
+
+    +-----------------------------------------------------------+
+    | Node | 0   | 1    | 2     | 3     | 4     | 5     | 6     |
+    +-----------------------------------------------------------+
+    | v0   | 0   | 0    | 0     | 0     | 0     | 0     | \     |
+    | v1   | inf | 0,v0 | -3,v5 | -7,v4 | -9,v2 | -9,v2 | \     |
+    | v2   | inf | 0,v0 | 0     | 0     | 0     | -1,v1 | \     |
+    | v3   | inf | 0,v0 | 0     | 0     | 0     | 0     | \     |
+    | v4   | inf | 0,v0 | -2,v2 | -2,v2 | -2,v2 | -2,v2 | -3,v2 | ***
+    | v5   | inf | 0,v0 | -4,v4 | -6,v2 | -6,v2 | -6,v4 | \     |
+    +-----------------------------------------------------------+
+
+    - There was a change in the v+1th iteration, therefore the graph contains a negative cycle.
+
+    ANALYSIS:
+    - In Bellman-Ford an edge may be relaxed many times.
+    - Big Oh (|V|*|E|)
+--
+
+Chain Matrix Multiplication
+
+    | 0 | 1   | 2 | 3 |
+| 0 | 0 | 15k |         |
+| 1 |   | 0   |      |
+| 2 |   |     | 0     |
+| 3 |   |     | 0 |

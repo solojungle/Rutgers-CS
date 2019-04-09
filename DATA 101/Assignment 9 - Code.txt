@@ -1,0 +1,14 @@
+library(rpart)
+library(rpart.plot) 
+tree <- rpart(GRADE ~ ASKS_QUESTIONS + LEAVES_EARLY, data=df_train)
+rpart.plot(tree)
+tree <- rpart(GRADE ~ SCORE + PARTICIPATION, data=df_train)
+rpart.plot(tree)
+
+
+tree<-rpart(GRADE~SCORE+PARTICIPATION+ASKS_QUESTIONS+LEAVES_EARLY,data=df_train, control=rpart.control(minsplit=30))
+CrossValidation::cross_validate(df_train, tree, 2, 0.8)
+
+decision  <- predict(tree, newdata=test, type="class")
+M2018_sample_submission$GRADE <-decision
+write.csv(M2018_sample_submission, "submission.csv", row.names =FALSE)

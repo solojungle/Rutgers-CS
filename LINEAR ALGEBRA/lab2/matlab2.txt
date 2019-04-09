@@ -1,0 +1,151 @@
+diary lab2.txt
+% Ali Awari
+% 9393
+% Section 14241
+% Math 250 MATLAB Lab Assignment #2
+rand('seed', 9393)
+format compact
+format short
+% Question 1 (a)
+A = rmat(3, 5), rank(A(:,1:3))
+% If the rank is less than 3, generate a new A
+b = rvect(3), R = rref([A b])
+S = R(:,1:5)
+S = rref(A);
+% (i)
+% Columns 1,2, & 3 are pivot columns
+% (ii) 
+% Rank of R & A is 3
+% (iii)
+% A has a nullity of 2, x4,x5 are free variables
+% (iv)
+% Because the matrix is consistent (no zero row).
+% Question 1 (b)
+c = R(:,6)
+x = [c; 0; 0]
+% Question 1 (b) i
+A*x - b
+S*x - c
+% Question 1 (b) ii
+% The Corollary from Theorem 2.3 on page 127 states: "...Ax=b has the same solutions as
+% Rx=c, where [R c] is the reduced row echelon form of the augmented matrix
+% [A b]." (Lawrence 127)
+% We found A,S,x,c,b and Ax = b implies Ax - b = 0 showed true. Which the
+% Column Correspondence Property we can also assume that: Because Ax - c = 0:
+% implies Sx - c = 0 which was shown true.
+% Question 1 (c)
+u = [-S(:,4); 1; 0], v = [-S(:,5);0;1]
+% Question 1 (c) i
+% A has two free variables, and three basic variables. Generating a vector by
+% negating the basic variables and putting arbitrary numbers for the free variables
+% creates new vectors within the span of A.
+S*u
+A*u
+S*v
+A*v
+s = rand(1)
+t = rand(1)
+y = (s*u)+(t*v)
+% Question 1 (c) ii
+A*y
+% Ay = 0 | y = su+tv 
+% A(su+tv) = 0
+% Property (a): A(u+v) = Au+Av => A(su+tv) = A(su)+A(tv)
+% A(su)+A(tv) = 0
+% Question 1 (d)
+z = x + y
+A*z-b
+% z = x+y
+% 1.3 (a): A(u+v) = Au+Av
+% Az = A(x+y) = Ax+Ay
+% Ax+Ay = b
+% Proven that Ay = 0 previously
+% Ax+0 = b
+% Ax = b
+% Ax-b = 0
+% Question 2
+u1 = rvect(3)
+u2 = rvect(3)
+u3 = rvect(3)
+u4 = rvect(3)
+% Question 2(a)
+A = [u1 u2 u3]
+rref(A)
+% Question 2(a) i
+% There are no free variables
+% Question 2(a) ii
+% It is linearly independent, there are no free variables, and the
+% matrix is consistent for all values
+% Question 2(b)
+B = [u1 u2 u3 u4]
+rref(B)
+% Question 2(b) i
+% There is 1 free variable, x4
+% Question 2(b) ii
+% B is linearly dependent since there is a free variable, where a scalar
+% c can be a non-trivial solution
+% Question 2(c)
+v = rand(1)*u1 + rand(1)*u2
+% C is linearly dependent, v is a linear combination of the vectors
+% in C which will result in a free variable
+C = [u1 u2 v]
+rref(C)
+% Question 3
+A = rmat(2,3)
+B = rmat(3, 4)
+C = rmat(4,3)
+v = rvect(4)
+% Question 3 (a)
+u = B*v
+A*u
+D = A*B
+D*v
+% Question 3 (b)
+A = [0 1; 0 0]
+B = [0 0; 1 0]
+C = [0 1; 1 0]
+% Question 3 (b) i
+A*B
+B*A
+% AB != BA
+(A+B)*(A+B)
+(A*A)+((2*A)*(B))+(B*B)
+% (A+B)^2 != A^2+2AB+B^2
+% Question 3 (b) ii
+A*A
+% A^2 if it was a number would be that number multiplied by itself
+% For matrices this pattern doesn't hold.
+% Question 3 (b) iii
+A*C
+A*B
+% I would conclude that B = C since they both result in the same answer
+% This isn't true with matrices, matrix multiplication is different
+% Question 4
+A = [0 0 0 1 0 1;1 0 1 1 0 0;0 1 0 1 0 0;1 0 1 0 0 0;1 1 1 0 0 1;0 0 1 1 0 0]
+% Question 4 i
+% Image Provided.
+% Question 4 ii
+% Yes, the following:
+% P1 can't receive from: P3, P6
+% P2 can't receive from: P1, P4, P6
+% P3 can't receive from: P1
+% P4 can't receive from: P5
+% P5 can't receive from: P1, P2, P3, P4, P6
+% P6 can't receive from: P2, P3, P4
+% Lines from the graph show this.
+% Looking at the row number of the corresponding node name, then finding a '1' in a column
+% which corresponds to a different node shows the same thing.
+% Question 4 iii
+A+A*A
+A+A*A+A*A*A
+A+A*A+A*A*A+A*A*A*A
+% Using the adjacency matrix of A+A*A... provides an easy way to see what happens at
+% each stage by looking at the (i,j) entry: (1,4) to be specific.
+% Stage 1: P1 has one way, and cumulatively one way of sending a message to P4
+% Stage 2: P1 has one way, and cumulatively two ways of sending a message to P4
+% Stage 3: P1 has three ways, and cumulatively five ways of sending a message to P4
+% Stage 4: P1 has five ways, and cumulatively ten ways of sending a message to P4
+% Question 4 iv
+B = (A)+(A*A)+(A*A*A)+(A*A*A*A)
+% By looking at the (3,4) entry of B we can determine the following:
+% P3 has cumulatively twelve ways of sending a message to P4

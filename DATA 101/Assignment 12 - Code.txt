@@ -1,0 +1,21 @@
+library(rpart)
+library(rpart.plot)
+tree <- rpart(Years_Known ~., data = train)
+rpart.plot(tree)
+
+
+train$add <- train$Years_Known + train$Duration_Of_Interaction
+train$sub <- train$Years_Known - train$Duration_Of_Interaction
+train$eve <- (train$Years_Known + train$Duration_Of_Interaction) %% 2
+train$dur <- train$add - train$Duration_Of_Interaction
+
+
+df <- unique(train)
+
+for(i in 1:nrow(test)){
+    temp <- subset(df, Person_1 == toString(test[i, "Person_1"]))
+    current <- subset(temp, Person_2 == toString(test[i, "Person_2"]))
+    test[i,]$Friends <- current[1,]$Friends
+}
+
+write.csv(submission, "submission.csv", row.names =FALSE)

@@ -1,0 +1,11 @@
+
+PermutationTestSecond::Permutation(WALMART1, "SODA", "STEAK",1000,"1", "0")
+PermutationTestSecond::Permutation(WALMART1, "STEAK", "SODA",1000,"1", "0")
+PermutationTestSecond::Permutation(WALMART1, "STEAK", "SALT",1000,"1", "0")
+PermutationTestSecond::Permutation(WALMART1, "SALT", "STEAK",1000,"1", "0")
+PermutationTestSecond::Permutation(WALMART1, "SODA", "FISH",1000,"1", "0")
+PermutationTestSecond::Permutation(WALMART1, "FISH", "SODA",1000,"1", "0")
+PermutationTestSecond::Permutation(WALMART1, "SODA", "COOKIES",1000,"1", "0")
+PermutationTestSecond::Permutation(WALMART1, "COOKIES", "SODA",1000,"1", "0")
+PermutationTestSecond::Permutation(WALMART1, "FISH", "TEA",1000,"1", "0")
+PermutationTestSecond::Permutation(WALMART1, "TEA", "FISH",1000,"1", "0")

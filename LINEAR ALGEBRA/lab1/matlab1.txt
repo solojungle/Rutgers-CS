@@ -1,0 +1,111 @@
+diary lab1.txt
+format compact
+% Ali Awari
+% 9393
+% Section 14241
+% Math 250 MATLAB Lab Assignment #1
+rand('seed', 9393)
+% Question 1 (a)
+R = rand(2,3)
+R = rand(2,3)
+R = rand(2,3)
+% Question 1 (b)
+A = [1 2; 3 4; 5 6]
+B = [1 2 3; 4 5 6; 7 8 9]
+x = [4 3 2]
+X = [1; 2; 3]
+B
+x
+X
+whos
+% Question 1 (c)
+[size(A); size(B); size(X); size(x)]
+S = ans
+% Question 1 (d)
+a32 = A(3,2)
+A(3,2) = 7
+A(3,2) = 6
+% Question 1 (e)
+C(:,1) = B(:,1); C(:,2) = B(:,3)
+D(1,:) = B(1,:); D(2,:) = B(3,:)
+C, D
+% Question 2 (a)
+whos
+% [A, X], [B, C], [B;D] fits
+% [C, D], [C;B], will not fit
+% Question 2 (b)
+eye(4)
+zeros(3)
+zeros(3,5)
+ones(2,3)
+diag([4 5 6 7])
+% Question 3 (a)
+format short
+format compact
+u = fix(10*rand(3,1)), v = fix(10*rand(3,1)), A = fix(10*rand(2,3)), B = fix(10*rand(2,3))
+A+B
+B+A
+6*B
+2*(3*B)
+6*A+15*B
+3*(2*A+5*B)
+3*A
+(3*A')'
+% A+B=B+A is the commutative law of matrix addition
+% 6B, 2(3B), 6A+15B, 3(2A+5B), 3A, is scalar multiplication
+% (3A')' is one of the properties of transpose, where you can distribute the T
+% Question 3 (b)
+A*u+A*v
+A*(u+v)
+(A+B)*u
+A*u+B*u
+A*(3*u)
+3*A*(u)
+% A(u + v) = Au + Av
+% (A + B)u = Au + Bu
+% A(3u) = 3A(u)
+% Shows that matrix-vector products are distributive, commutative, and associative
+% Question 4 (a)
+A = fix(10*rand(3,4))
+R = A; R(1,:) = R(1,:)/R(1,1)
+R(2,:) = R(2,:) - R(2,1)*R(1,:)
+R(3,:) = R(3,:) - R(3,1)*R(1,:)
+% Question 4 (b)
+R(2,:) = R(2,:)/R(2,2)
+R(1,:) = R(1,:) - R(1,2)*R(2,:)
+R(3,:) = R(3,:) - R(3,2)*R(2,:)
+% Question 4(c)
+R(3,:) = R(3,:)/R(3,3)
+R(1,:) = R(1,:)-R(1,3)*R(3,:)
+R(2,:) = R(2,:)-R(2,3)*R(3,:)
+rref(A)
+
+
+% Question 5 (a)
+a = [0.1;0.15;0.3]
+m = [0.2;0.25;0.1]
+s = [0.2; 0.35; 0.1]
+C = [a, m, s]
+
+% Question 5(b)
+x = [40;50;30]
+C * x
+x - C*x
+% The net production vector
+% $20 million of agriculture,
+% $21 million of manufacturing,
+% $10 million of services.
+% Question 5(c)
+d = [90; 72; 96]
+% Question 5(c) i
+% (I3 - C)x = d
+% Question 5(c) ii
+eye(3)-C
+[ans, d]
+x = rref(ans)
+% $194 million finance
+% $226.5 million in goods
+% $196.5 million in services.
+
+
+

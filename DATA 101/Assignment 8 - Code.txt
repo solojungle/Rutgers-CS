@@ -1,0 +1,55 @@
+boxplot(M2018_train$SCORE ~ M2018_train$GRADE, main="SCORE vs. GRADE", ylab = "Score", xlab="Grade")
+
+boxplot(M2018_train$PARTICIPATION ~ M2018_train$GRADE, main="PARTICIPATION vs. GRADE", ylab = "Participation", xlab="Grade")
+
+train <- M2018_train
+test <- M2018_test_students
+submission <- M2019_sample_submission
+
+decision <- rep('F',nrow(train))
+decision[train$SCORE >= 23 & train$PARTICIPATION >= .51] <- 'D'
+decision[train$SCORE >= 34] <- 'D'
+decision[train$SCORE >= 43 & train$PARTICIPATION >= .55] <- 'C'
+decision[train$SCORE >= 52] <- 'C'
+decision[train$SCORE >= 59 & train$PARTICIPATION >= .51] <- 'B'
+decision[train$SCORE >= 68] <- 'B'
+decision[train$SCORE >= 73 & train$PARTICIPATION >= .51] <- 'A'
+decision[train$SCORE >= 80] <- 'A'
+myprediction<-train
+myprediction$GRADE <-decision
+error <- mean(train$GRADE!= myprediction$GRADE)
+error
+
+library("caTools")
+spl <- sample.split(train$GRADE, SplitRatio = 0.7)
+testingCV <- subset(train, spl ==FALSE)
+dim(testingCV)
+decision <- rep('F',nrow(testingCV))
+decision[testingCV$SCORE >= 23 & testingCV$PARTICIPATION >= .51] <- 'D'
+decision[testingCV$SCORE >= 34] <- 'D'
+decision[testingCV$SCORE >= 43 & testingCV$PARTICIPATION >= .55] <- 'C'
+decision[testingCV$SCORE >= 52] <- 'C'
+decision[testingCV$SCORE >= 59 & testingCV$PARTICIPATION >= .51] <- 'B'
+decision[testingCV$SCORE >= 68] <- 'B'
+decision[testingCV$SCORE >= 73 & testingCV$PARTICIPATION >= .51] <- 'A'
+decision[testingCV$SCORE >= 80] <- 'A'
+myprediction<-testingCV
+myprediction$GRADE <-decision
+error <- mean(testingCV$GRADE!= myprediction$GRADE)
+error
+
+
+decision <- rep('F',nrow(test))
+decision[test$SCORE >= 23 & test$PARTICIPATION >= .51] <- 'D'
+decision[test$SCORE >= 34] <- 'D'
+decision[test$SCORE >= 43 & test$PARTICIPATION >= .55] <- 'C'
+decision[test$SCORE >= 52] <- 'C'
+decision[test$SCORE >= 59 & test$PARTICIPATION >= .51] <- 'B'
+decision[test$SCORE >= 68] <- 'B'
+decision[test$SCORE >= 73 & test$PARTICIPATION >= .51] <- 'A'
+decision[test$SCORE >= 80] <- 'A'
+myprediction<-test
+myprediction$GRADE <-decision
+outcome<-data.frame(ID=submission$STUDENTID,GRADE=myprediction$GRADE)
+write.csv(outcome,"March28_submission.csv",row.names = F)
+
